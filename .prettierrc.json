@@ -1,0 +1,12 @@
+{
+	"semi": false,
+	"singleQuote": true,
+	"tabWidth": 2,
+	"useTabs": true,
+	"trailingComma": "es5",
+	"printWidth": 120,
+	"resolveGlobalModules": true,
+	"arrowParens": "avoid",
+	"plugins": ["prettier-plugin-tailwindcss"]
+	
+}
