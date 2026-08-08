@@ -1,1 +1,31 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+	--font-sans: 'Inter', sans-serif;
+	--font-mono: 'JetBrains Mono', monospace;
+
+	--color-app-bg: #0f1115;
+	--color-app-surface: #181a20;
+	--color-app-elevated: #262a33;
+
+	--color-app-text: #f0f2f5;
+	--color-app-muted: #9ca3af;
+
+	--color-hr: #ff4757;
+	--color-gps: #1e90ff;
+	--color-live: #00e676;
+	--color-pitstop: #ffa502;
+}
+
+/* 4. Globalne ustawienia dla <body> */
+body {
+	/* Zabezpieczenia na mobile */
+	overscroll-behavior-y: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.data-nums {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}

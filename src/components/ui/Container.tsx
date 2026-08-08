@@ -1,5 +1,5 @@
-function Container({ children }: { children: React.ReactNode }) {
-	return <div className="container mx-auto max-w-6xl px-4 md:px-8  md:py-10">{children}</div>
+function Container({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+	return <div className={`container mx-auto max-w-6xl md:px-8 md:py-10 ${className}`}>{children}</div>
 }
 
 export default Container

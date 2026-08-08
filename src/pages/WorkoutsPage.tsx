@@ -1,13 +1,15 @@
+import { Outlet } from 'react-router-dom'
 import Container from '../components/ui/Container'
+import { SpectatorDashboard } from './../features/workouts/live-tracking/spectator/components/SpectatorDashboard'
 
 function WorkoutsPage() {
 	return (
-		<Container>
-			<section className="map py-4">
-				<h1>dedede</h1>
-			</section>
-			<section className="data"></section>
-		</Container>
+		<section className='bg-app-bg'>
+			<Outlet />
+			<Container>
+				<SpectatorDashboard />
+			</Container>
+		</section>
 	)
 }
 

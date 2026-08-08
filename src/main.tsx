@@ -6,6 +6,8 @@ import './index.css'
 import App from './App'
 import FinancePage from './pages/FinancePage'
 import WorkoutsPage from './pages/WorkoutsPage'
+import { SpectatorDashboard } from '@features/workouts/live-tracking/spectator/components/SpectatorDashboard'
+import { RunnerDashboard } from '@features/workouts/live-tracking/runner/components/RunnerDashboard'
 
 const router = createBrowserRouter([
 	{
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
 		path: '/workouts',
 		element: <WorkoutsPage />,
 	},
+	{
+		path: '/live',
+		element: <RunnerDashboard />,
+	},
+	{
+		path: '/spectator',
+		element: <SpectatorDashboard />,
+	}
 ])
 
 createRoot(document.getElementById('root')!).render(
