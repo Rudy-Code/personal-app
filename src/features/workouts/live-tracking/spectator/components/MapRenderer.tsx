@@ -14,7 +14,7 @@ export function MapRenderer({ currentPosition, routeGeoJson }: MapRendererProps)
 	const defaultCenter: [number, number] = [49.968, 20.43]
 
 	// -----------------------------------------------------------------
-	// FUNKCJA: drawing points <wpt> from GPX
+	// FUNCTION: Drawing points <wpt> from GPX
 	// -----------------------------------------------------------------
 	const renderWaypoint = (feature: any, latlng: L.LatLng) => {
 		if (feature.geometry.type !== 'Point') return null
@@ -65,7 +65,6 @@ export function MapRenderer({ currentPosition, routeGeoJson }: MapRendererProps)
 					/>
 				)}
 
-				
 				{currentPosition && <Marker position={currentPosition} icon={runnerIcon} />}
 
 				{/* 3. center map */}
@@ -76,7 +75,7 @@ export function MapRenderer({ currentPosition, routeGeoJson }: MapRendererProps)
 }
 
 // -------------------------------------------------------------
-// "center map" 
+// "center map"
 // -------------------------------------------------------------
 function MapController({ currentPosition }: { currentPosition: [number, number] | null }) {
 	const map = useMap()
