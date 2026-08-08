@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, GeoJSON, Marker, useMap } from 'react-leaflet'
 import { CrosshairIcon } from '@phosphor-icons/react'
 import L from 'leaflet'
-import { runnerIcon } from '..//mapIcon'
+import { runnerIcon } from '../mapIcon'
 
 import 'leaflet/dist/leaflet.css'
 
