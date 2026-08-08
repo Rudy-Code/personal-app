@@ -14,6 +14,12 @@ import { useSpectatorStore } from '../stores/useSpectatorStore'
 import { useSpectatorSocket } from '../hooks/useSpectatorSocket'
 import { CheckCircleIcon, MapPinIcon } from '@phosphor-icons/react'
 
+type Waypoint = {
+	id: number
+	name: string
+	coords: [number, number]
+}
+
 export function SpectatorDashboard() {
 	// 1. Odpalamy nasłuchiwacz Socket.io (działa w tle)
 	useSpectatorSocket('rudy')
@@ -40,7 +46,7 @@ export function SpectatorDashboard() {
 	}, [])
 
 	// 4. Magia - wyciągamy punkty (sklepy/przepaki) z pliku GPX do naszej listy na dole
-	const waypoints = useMemo(() => {
+	const waypoints = useMemo<Waypoint[]>(() => {
 		if (!routeGeoJson) return []
 		// Filtrujemy tylko elementy typu Point z GeoJSON (czyli tagi <wpt> z GPX)
 		return routeGeoJson.features

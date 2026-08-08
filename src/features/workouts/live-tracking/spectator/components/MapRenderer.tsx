@@ -16,9 +16,8 @@ export function MapRenderer({ currentPosition, routeGeoJson }: MapRendererProps)
 	// -----------------------------------------------------------------
 	// FUNCTION: Drawing points <wpt> from GPX
 	// -----------------------------------------------------------------
-	const renderWaypoint = (feature: any, latlng: L.LatLng) => {
-		if (feature.geometry.type !== 'Point') return null
-
+	const renderWaypoint = (_feature: any, latlng: L.LatLng): L.Layer => {
+		const feature = _feature
 		const name = feature.properties.name || 'Punkt kontrolny'
 
 		const customIcon = L.divIcon({

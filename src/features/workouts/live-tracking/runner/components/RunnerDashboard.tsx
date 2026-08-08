@@ -45,12 +45,18 @@ export function RunnerDashboard() {
 		return routeGeoJson.features
 			.filter((feature: any) => feature.geometry.type === 'Point')
 			.map((feature: any) => feature.properties.name || 'Punkt kontrolny')
-	}, [routeGeoJson])
+	}, [routeGeoJson]) as string[]
 
 	const handlePitstop = (pitstopName: string) => {
 		togglePitstop(pitstopName)
 		forceSync() // Od razu wypychamy nowy stan netto/brutto do serwera
 		if (navigator.vibrate) navigator.vibrate([100, 50, 100])
+	}
+
+	const handleQuickMood = (moodText: string) => {
+		setMood(moodText)
+		forceSync()
+		if (navigator.vibrate) navigator.vibrate(50)
 	}
 
 	const handleStopRun = () => {

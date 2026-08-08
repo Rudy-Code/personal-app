@@ -4,17 +4,26 @@ const { Server } = require('socket.io')
 const cors = require('cors')
 
 const app = express()
-app.use(cors())
+
+// 1. Zabezpieczamy Expressa
+app.use(
+	cors({
+		origin: 'https://personal.rudycode.pl',
+		methods: ['GET', 'POST'],
+	})
+)
 
 const server = http.createServer(app)
 
-// Inicjalizacja WebSocketów
+// 2. Zabezpieczamy Socket.io
 const io = new Server(server, {
 	cors: {
-		origin: '*', // Na produkcji zmienisz to na domenę, z której hostujesz Reacta (np. "https://rudycode.pl")
+		origin: 'https://personal.rudycode.pl',
 		methods: ['GET', 'POST'],
 	},
 })
+
+const PORT = process.env.PORT || 3001
 
 // Cache najnowszego stanu - dzięki temu nowi kibice nie widzą
 // pustego ekranu przez 5 sekund, zanim Twój S25 wyśle kolejną paczkę.
@@ -46,8 +55,7 @@ io.on('connection', socket => {
 	})
 })
 
-const PORT = process.env.PORT || 3001
 
-server.listen(PORT, () => {
-	console.log(`🚀 Rudy Tracker Server działa na porcie ${PORT}`)
+server.listen(PORT, '0.0.0.0', () => {
+	console.log(`🚀 Serwer API działa na porcie ${PORT}`)
 })
