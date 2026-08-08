@@ -19,8 +19,13 @@ export function useRunnerSocket() {
 		const state = useRunnerStore.getState()
 		return {
 			coordinates: state.coordinates ? [state.coordinates.lat, state.coordinates.lng] : null,
-			hr: { current: state.hr || '--', average: state.hr || '--' },
-			pace: { current: state.pace, average: state.pace },
+			hr: {
+				current: state.hr || '--',
+				average: state.averageHr || '--',
+			},
+
+			pace: { current: state.pace, average: state.averagePace },
+
 			distance: { covered: state.distance.toFixed(2), remaining: Math.max(48 - state.distance, 0).toFixed(2) },
 			time: {
 				startTime: state.startTime,

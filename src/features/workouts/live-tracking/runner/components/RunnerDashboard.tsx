@@ -15,11 +15,12 @@ import {
 	ToiletIcon,
 	MapPinIcon,
 	CheckCircleIcon,
+	TrashIcon,
 } from '@phosphor-icons/react'
 
 export function RunnerDashboard() {
-	// Prawidłowe wyciągnięcie zmiennych ze Store'a, żeby React wiedział kiedy odświeżyć UI
-	const { isTracking, hr, coordinates, activePitstop, completedPitstops, setMood, togglePitstop } = useRunnerStore()
+	const { isTracking, hr, coordinates, activePitstop, completedPitstops, setMood, togglePitstop, resetRun } =
+		useRunnerStore()
 
 	const { isConnected, connectPolar, error } = usePolarH10()
 	const { startTracking, stopTracking } = useRunEngine()
@@ -27,9 +28,12 @@ export function RunnerDashboard() {
 
 	const [routeGeoJson, setRouteGeoJson] = useState<any | null>(null)
 
-	// Stany do zabezpieczenia przycisku STOP
+	// Stany inputów zabezpieczających
 	const [isConfirmingStop, setIsConfirmingStop] = useState(false)
 	const [stopInput, setStopInput] = useState('')
+
+	const [isConfirmingReset, setIsConfirmingReset] = useState(false)
+	const [resetInput, setResetInput] = useState('')
 
 	useEffect(() => {
 		fetch('/Ultra-1.gpx')
@@ -45,18 +49,18 @@ export function RunnerDashboard() {
 		return routeGeoJson.features
 			.filter((feature: any) => feature.geometry.type === 'Point')
 			.map((feature: any) => feature.properties.name || 'Punkt kontrolny')
-	}, [routeGeoJson]) as string[]
-
-	const handlePitstop = (pitstopName: string) => {
-		togglePitstop(pitstopName)
-		forceSync() // Od razu wypychamy nowy stan netto/brutto do serwera
-		if (navigator.vibrate) navigator.vibrate([100, 50, 100])
-	}
+	}, [routeGeoJson])
 
 	const handleQuickMood = (moodText: string) => {
 		setMood(moodText)
 		forceSync()
-		if (navigator.vibrate) navigator.vibrate(50)
+		if (navigator.vibrate) navigator.vibrate(200)
+	}
+
+	const handlePitstop = (pitstopName: string) => {
+		togglePitstop(pitstopName)
+		forceSync()
+		if (navigator.vibrate) navigator.vibrate([100, 50, 100])
 	}
 
 	const handleStopRun = () => {
@@ -66,39 +70,57 @@ export function RunnerDashboard() {
 		setStopInput('')
 	}
 
+	const handleResetRun = () => {
+		if (isTracking) stopTracking()
+		resetRun()
+		setTimeout(() => forceSync(), 100) // Wypychamy wyzerowany stan
+		setIsConfirmingReset(false)
+		setResetInput('')
+	}
+
 	return (
-		<div className="bg-app-bg text-app-text flex h-[100dvh] flex-col overflow-y-auto p-6 font-sans">
+		<div className="bg-app-bg text-app-text flex flex-col overflow-y-auto p-6 font-sans">
 			{/* HEADER */}
 			<div className="mb-8 flex shrink-0 items-center justify-between">
-				<button
-					onClick={connectPolar}
-					className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-all ${isConnected ? 'border-hr text-hr' : 'border-zinc-700 text-zinc-400'}`}
-				>
-					<HeartIcon weight="fill" className={isConnected ? 'animate-pulse' : ''} />
-					{isConnected ? `${hr} BPM` : 'Połącz H10'}
-				</button>
+				<div className="flex flex-col gap-1">
+					<button
+						onClick={connectPolar}
+						className={`flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-all ${isConnected ? 'border-hr text-hr' : 'border-zinc-700 text-zinc-400'}`}
+					>
+						<HeartIcon weight="fill" className={isConnected ? 'animate-pulse' : ''} />
+						{isConnected ? `${hr} BPM` : 'Połącz H10'}
+					</button>
+					{!isConnected && (
+						<span className="pl-2 text-[9px] tracking-widest text-zinc-500 uppercase">
+							💡 Wymaga połączenia w apce Polar Flow
+						</span>
+					)}
+				</div>
 				<span className="flex items-center gap-1 font-mono text-xs font-bold text-zinc-500">
 					<CrosshairIcon className={coordinates ? 'text-gps' : ''} /> {coordinates ? 'GPS OK' : 'Brak GPS'}
 				</span>
 			</div>
 
-			{error && <p className="text-hr mb-4 text-xs">{error}</p>}
+			{/* DEBUG ERROR POKAŻE SIĘ TUTAJ JAK POLAR ZNOWU PADNIE */}
+			{error && (
+				<div className="mb-4 rounded-lg border border-red-500/50 bg-red-900/20 p-3">
+					<p className="text-center font-mono text-xs text-red-400">{error}</p>
+				</div>
+			)}
 
-			{/* GŁÓWNA SEKCJA START / STOP Z ZABEZPIECZENIEM */}
-			<div className="flex min-h-[280px] shrink-0 flex-col items-center justify-center py-6">
+			{/* GŁÓWNA SEKCJA START / STOP */}
+			<div className="flex min-h-[260px] shrink-0 flex-col items-center justify-center py-4">
 				{!isTracking ? (
 					<button
 						onClick={startTracking}
-						className="border-live bg-live/10 text-live active:bg-live/30 flex aspect-square w-full max-w-[240px] flex-col items-center justify-center gap-4 rounded-full border-4 shadow-[0_0_50px_rgba(0,230,118,0.2)] transition-all active:scale-95"
+						className="border-live bg-live/10 text-live active:bg-live/30 flex aspect-square w-full max-w-[220px] flex-col items-center justify-center gap-4 rounded-full border-4 shadow-[0_0_50px_rgba(0,230,118,0.2)] transition-all active:scale-95"
 					>
 						<PlayCircleIcon size={64} weight="fill" />
 						<span className="text-3xl font-black tracking-widest uppercase">Start</span>
 					</button>
 				) : isConfirmingStop ? (
 					<div className="animate-in zoom-in-95 flex w-full max-w-[240px] flex-col items-center gap-4">
-						<span className="text-hr text-center text-sm font-black tracking-widest uppercase">
-							Wpisz "STOP" aby zakończyć
-						</span>
+						<span className="text-hr text-center text-sm font-black tracking-widest uppercase">Wpisz "STOP"</span>
 						<input
 							type="text"
 							value={stopInput}
@@ -128,7 +150,7 @@ export function RunnerDashboard() {
 				) : (
 					<button
 						onClick={() => setIsConfirmingStop(true)}
-						className="border-hr/80 bg-hr/10 text-hr active:bg-hr/30 flex aspect-square w-full max-w-[240px] flex-col items-center justify-center gap-4 rounded-full border-4 transition-all active:scale-95"
+						className="border-hr/80 bg-hr/10 text-hr active:bg-hr/30 flex aspect-square w-full max-w-[220px] flex-col items-center justify-center gap-4 rounded-full border-4 transition-all active:scale-95"
 					>
 						<StopCircleIcon size={64} weight="fill" />
 						<span className="text-2xl font-black tracking-widest uppercase">Zakończ</span>
@@ -137,7 +159,7 @@ export function RunnerDashboard() {
 			</div>
 
 			{isTracking && (
-				<div className="animate-in fade-in slide-in-from-bottom-4 flex flex-col gap-8 pb-12">
+				<div className="animate-in fade-in slide-in-from-bottom-4 flex flex-col gap-8 pb-8">
 					{/* SZYBKIE STATUSY */}
 					<div className="flex flex-col gap-3">
 						<p className="text-xs font-bold tracking-widest text-zinc-500 uppercase">Szybki Status</p>
@@ -146,38 +168,38 @@ export function RunnerDashboard() {
 								onClick={() => handleQuickMood('Ogień, lecę dobrze!')}
 								className="text-app-text flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 p-3 transition-all active:scale-95 active:bg-zinc-700"
 							>
-								<FireIcon className="text-pitstop" size={20} weight="fill" />
+								<FireIcon className="text-pitstop" size={20} weight="fill" />{' '}
 								<span className="text-[10px] font-bold tracking-wider uppercase">Lecę Dobrze</span>
 							</button>
 							<button
 								onClick={() => handleQuickMood('Potrzebuję pić!')}
 								className="text-app-text flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 p-3 transition-all active:scale-95 active:bg-zinc-700"
 							>
-								<DropIcon className="text-blue-400" size={20} weight="fill" />
+								<DropIcon className="text-blue-400" size={20} weight="fill" />{' '}
 								<span className="text-[10px] font-bold tracking-wider uppercase">Brak wody</span>
 							</button>
 							<button
 								onClick={() => handleQuickMood('Toaleta / Zatrzymanie')}
 								className="text-app-text flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 p-3 transition-all active:scale-95 active:bg-zinc-700"
 							>
-								<ToiletIcon className="text-zinc-400" size={20} weight="fill" />
+								<ToiletIcon className="text-zinc-400" size={20} weight="fill" />{' '}
 								<span className="text-[10px] font-bold tracking-wider uppercase">Krzaki</span>
 							</button>
 							<button
 								onClick={() => handleQuickMood('Odcięło Prąd')}
 								className="border-hr/50 bg-hr/20 text-hr active:bg-hr/30 flex items-center gap-2 rounded-xl border p-3 transition-all active:scale-95"
 							>
-								<SkullIcon size={20} weight="fill" />
+								<SkullIcon size={20} weight="fill" />{' '}
 								<span className="text-[10px] font-bold tracking-wider uppercase">Kryzys</span>
 							</button>
 						</div>
 					</div>
 
-					{/* CHECKPOINTY (PRZEPAKI) - Z WYRAŹNYM STYLEM */}
+					{/* CHECKPOINTY */}
 					<div className="flex flex-col gap-3">
 						<p className="text-xs font-bold tracking-widest text-zinc-500 uppercase">Zamelduj Pitstop</p>
 						<div className="flex flex-col gap-2">
-							{waypoints.map((wptName, idx) => {
+							{waypoints.map((wptName: string, idx: number) => {
 								const isActive = activePitstop === wptName
 								const isCompleted = completedPitstops.includes(wptName)
 
@@ -221,6 +243,49 @@ export function RunnerDashboard() {
 					</div>
 				</div>
 			)}
+
+			{/* SEKCJA HARD RESETU (Tylko jak nie biegniemy, albo pauzujemy) */}
+			<div className="mt-auto border-t border-zinc-800 pt-6">
+				{isConfirmingReset ? (
+					<div className="animate-in fade-in flex w-full flex-col items-center gap-4">
+						<span className="text-center text-xs font-black tracking-widest text-red-500 uppercase">
+							Wpisz "RESET" aby usunąć dane i wyzerować trasę
+						</span>
+						<input
+							type="text"
+							value={resetInput}
+							onChange={e => setResetInput(e.target.value.toUpperCase())}
+							placeholder="RESET"
+							className="w-full rounded-xl border border-red-500 bg-zinc-900 p-3 text-center text-xl font-black text-red-500 focus:outline-none"
+						/>
+						<div className="mt-2 flex w-full gap-2">
+							<button
+								onClick={() => {
+									setIsConfirmingReset(false)
+									setResetInput('')
+								}}
+								className="flex-1 rounded-xl bg-zinc-800 p-3 text-sm font-bold text-zinc-300 transition-all active:scale-95"
+							>
+								Anuluj
+							</button>
+							<button
+								disabled={resetInput !== 'RESET'}
+								onClick={handleResetRun}
+								className="flex-1 rounded-xl bg-red-600 p-3 text-sm font-bold text-white transition-all active:scale-95 disabled:opacity-20"
+							>
+								Zresetuj
+							</button>
+						</div>
+					</div>
+				) : (
+					<button
+						onClick={() => setIsConfirmingReset(true)}
+						className="flex w-full items-center justify-center gap-2 rounded-xl border border-transparent py-4 text-xs font-bold tracking-widest text-zinc-500 uppercase transition-all hover:bg-zinc-800/50 hover:text-red-500 active:scale-95"
+					>
+						<TrashIcon size={16} /> Wyczyść wszystkie dane
+					</button>
+				)}
+			</div>
 		</div>
 	)
 }

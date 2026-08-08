@@ -1,8 +1,7 @@
 import { create } from 'zustand'
 
-// Algorytm Haversine do wyliczania kilometrów z GPS
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-	const R = 6371 // Promień Ziemi w km
+	const R = 6371
 	const dLat = (lat2 - lat1) * (Math.PI / 180)
 	const dLon = (lon2 - lon1) * (Math.PI / 180)
 	const a =
@@ -11,16 +10,30 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 	return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)))
 }
 
+function formatPace(paceDec: number) {
+	if (paceDec < 0 || paceDec > 30 || !isFinite(paceDec)) return '-:--'
+	const pM = Math.floor(paceDec)
+	const pS = Math.floor((paceDec - pM) * 60)
+		.toString()
+		.padStart(2, '0')
+	return `${pM}:${pS}`
+}
+
 interface RunnerState {
 	isTracking: boolean
 	hr: number
+	hrSum: number // NOWE: Suma tętna
+	hrCount: number // NOWE: Ilość pomiarów
+	averageHr: number // NOWE: Wyliczona średnia
+
 	coordinates: { lat: number; lng: number } | null
 	startTime: number | null
 	endTime: number | null
 
 	distance: number
 	pace: string
-	lastPosition: { lat: number; lng: number } | null
+	averagePace: string
+	lastPosition: { lat: number; lng: number; timestamp: number } | null
 
 	mood: { text: string; timestamp: number } | null
 	activePitstop: string | null
@@ -30,6 +43,7 @@ interface RunnerState {
 
 	startRun: () => void
 	stopRun: () => void
+	resetRun: () => void
 	updateLocation: (lat: number, lng: number) => void
 	updateHr: (hr: number) => void
 	setMood: (moodText: string) => void
@@ -39,11 +53,15 @@ interface RunnerState {
 export const useRunnerStore = create<RunnerState>(set => ({
 	isTracking: false,
 	hr: 0,
+	hrSum: 0,
+	hrCount: 0,
+	averageHr: 0,
 	coordinates: null,
 	startTime: null,
 	endTime: null,
 	distance: 0,
 	pace: '-:--',
+	averagePace: '-:--',
 	lastPosition: null,
 	mood: null,
 	activePitstop: null,
@@ -58,7 +76,12 @@ export const useRunnerStore = create<RunnerState>(set => ({
 			endTime: null,
 			distance: 0,
 			pace: '-:--',
+			averagePace: '-:--',
 			lastPosition: null,
+			hr: 0,
+			hrSum: 0,
+			hrCount: 0,
+			averageHr: 0, // Zerujemy tętno przy starcie
 			activePitstop: null,
 			completedPitstops: [],
 			pitstopStartTime: null,
@@ -81,48 +104,83 @@ export const useRunnerStore = create<RunnerState>(set => ({
 			}
 		}),
 
+	resetRun: () =>
+		set({
+			isTracking: false,
+			hr: 0,
+			hrSum: 0,
+			hrCount: 0,
+			averageHr: 0,
+			coordinates: null,
+			startTime: null,
+			endTime: null,
+			distance: 0,
+			pace: '-:--',
+			averagePace: '-:--',
+			lastPosition: null,
+			mood: null,
+			activePitstop: null,
+			completedPitstops: [],
+			pitstopStartTime: null,
+			totalPitstopTime: 0,
+		}),
+
 	updateLocation: (lat, lng) =>
 		set(state => {
 			if (!state.isTracking) return { coordinates: { lat, lng } }
 
+			const now = Date.now()
 			let newDist = state.distance
+			let newCurrentPace = state.pace
+			let newAvgPace = state.averagePace
+
 			if (state.lastPosition) {
-				newDist += calculateDistance(state.lastPosition.lat, state.lastPosition.lng, lat, lng)
+				const tickDist = calculateDistance(state.lastPosition.lat, state.lastPosition.lng, lat, lng)
+				newDist += tickDist
+				const tickTimeMs = now - state.lastPosition.timestamp
+				if (tickDist > 0.005 && tickTimeMs > 0) {
+					newCurrentPace = formatPace(tickTimeMs / 60000 / tickDist)
+				}
 			}
 
-			let newPace = state.pace
-			const now = Date.now()
 			if (state.startTime) {
 				const pitstopTime = state.totalPitstopTime + (state.pitstopStartTime ? now - state.pitstopStartTime : 0)
 				const netTimeMs = now - state.startTime - pitstopTime
-
-				// Obliczamy tempo po przebiegnięciu pierwszych 100 metrów
 				if (newDist > 0.1 && netTimeMs > 0) {
-					const paceDec = netTimeMs / 60000 / newDist
-					const pM = Math.floor(paceDec)
-					const pS = Math.floor((paceDec - pM) * 60)
-						.toString()
-						.padStart(2, '0')
-					newPace = `${pM}:${pS}`
+					newAvgPace = formatPace(netTimeMs / 60000 / newDist)
 				}
 			}
-			return { coordinates: { lat, lng }, lastPosition: { lat, lng }, distance: newDist, pace: newPace }
+
+			return {
+				coordinates: { lat, lng },
+				lastPosition: { lat, lng, timestamp: now },
+				distance: newDist,
+				pace: newCurrentPace,
+				averagePace: newAvgPace,
+			}
 		}),
 
-	updateHr: hr => set({ hr }),
+	updateHr: hr =>
+		set(state => {
+			if (hr === 0) return { hr: 0 } // Wyzerowanie przy rozłączeniu
+			const newSum = state.hrSum + hr
+			const newCount = state.hrCount + 1
+			return {
+				hr,
+				hrSum: newSum,
+				hrCount: newCount,
+				averageHr: Math.round(newSum / newCount),
+			}
+		}),
+
 	setMood: text => set({ mood: { text, timestamp: Date.now() } }),
 
 	togglePitstop: name =>
 		set(state => {
 			const now = Date.now()
-			// 1 KLIKNIĘCIE: Wchodzimy do pitstopu (Czas netto się pauzuje)
 			if (state.activePitstop !== name && !state.completedPitstops.includes(name)) {
-				return {
-					activePitstop: name,
-					pitstopStartTime: now,
-				}
+				return { activePitstop: name, pitstopStartTime: now }
 			}
-			// 2 KLIKNIĘCIE: Wychodzimy z pitstopu (Czas netto rusza dalej)
 			if (state.activePitstop === name) {
 				const addedTime = state.pitstopStartTime ? now - state.pitstopStartTime : 0
 				return {

@@ -10,18 +10,30 @@ export function usePolarH10() {
 
 	const connectPolar = useCallback(async () => {
 		try {
-			setError(null)
+			setError('Skanowanie...')
 			const device = await navigator.bluetooth.requestDevice({
 				filters: [{ services: ['heart_rate'] }],
 			})
 
 			deviceRef.current = device
+			setError('Łączenie GATT...')
+
 			const server = await device.gatt?.connect()
+
+			// HACK DLA ANDROIDA: Dajemy chipowi 500ms na ustabilizowanie szyfrowania
+			await new Promise(resolve => setTimeout(resolve, 500))
+
+			setError('Pobieranie usługi...')
 			const service = await server?.getPrimaryService('heart_rate')
+
+			setError('Pobieranie charakterystyki...')
 			const characteristic = await service?.getCharacteristic('heart_rate_measurement')
 
+			setError('Start notyfikacji...')
 			await characteristic?.startNotifications()
+
 			setIsConnected(true)
+			setError(null) // Czyścimy błąd po pełnym sukcesie
 
 			characteristic?.addEventListener('characteristicvaluechanged', (event: any) => {
 				const value: DataView = event.target.value
@@ -35,9 +47,11 @@ export function usePolarH10() {
 			device.addEventListener('gattserverdisconnected', () => {
 				setIsConnected(false)
 				updateHr(0)
+				setError('Rozłączono z paskiem.')
 			})
 		} catch (err: any) {
-			setError(err.message)
+			setIsConnected(false)
+			setError(`Błąd BLE: ${err.message}`)
 		}
 	}, [updateHr])
 
