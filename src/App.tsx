@@ -1,7 +1,12 @@
+import { NavLink } from 'react-router-dom'
+import { Button } from './components/ui/button'
+
 function App() {
 	return (
 		<>
-			<h1 className=""></h1>
+			<NavLink to="/spectator">
+				<Button variant="default">Przejdz do widoku obserwatora</Button>
+			</NavLink>
 		</>
 	)
 }
