@@ -35,8 +35,6 @@ body {
 	font-variant-numeric: tabular-nums;
 }
 
-@import 'tailwindcss';
-
 @custom-variant dark (&:is(.dark *));
 
 :root {

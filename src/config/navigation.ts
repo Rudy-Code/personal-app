@@ -22,6 +22,7 @@ interface NavigationSubItem {
 	label: string
 	icon: LucideIcon
 	path: string
+	pageTitle: string
 }
 
 export const SIDEBAR_NAVIGATION: NavigationItem[] = [
@@ -32,6 +33,7 @@ export const SIDEBAR_NAVIGATION: NavigationItem[] = [
 				label: 'Dashboard',
 				icon: House,
 				path: '/',
+				pageTitle: 'Witaj z powrotem!',
 			},
 		],
 	},
@@ -43,16 +45,19 @@ export const SIDEBAR_NAVIGATION: NavigationItem[] = [
 				label: 'Treningi',
 				icon: Dumbbell,
 				path: '/lifestyle/workouts',
+				pageTitle: 'Panel Treningowy',
 			},
 			{
 				label: 'Dziennik',
 				icon: Book,
 				path: '/lifestyle/journal',
+				pageTitle: 'Przestrzeń Osobista',
 			},
 			{
 				label: 'Sprzęt / Garaż',
 				icon: Wrench,
 				path: '/lifestyle/accessories',
+				pageTitle: 'Garaż & Sprzęt',
 			},
 		],
 	},
@@ -64,27 +69,31 @@ export const SIDEBAR_NAVIGATION: NavigationItem[] = [
 				label: 'Przegląd Kont',
 				icon: LayoutDashboard,
 				path: '/finance/overview',
+				pageTitle: 'Przegląd Finansów',
 			},
 			{
 				label: 'Budżet i Koszty',
 				icon: Coins,
 				path: '/finance/budget',
+				pageTitle: 'Budżet & Subskrypcje',
 			},
 		],
 	},
 	{
-		title: 'BIZNES',
+		title: 'Biznes',
 		icon: BriefcaseBusiness,
 		items: [
 			{
 				label: 'Ewidencja sprzedaży',
 				icon: FileText,
 				path: '/business/sales',
+				pageTitle: 'Ewidencja (NDG)',
 			},
 			{
 				label: 'Klienci (CRM)',
 				icon: UsersRound,
 				path: '/business/customers',
+				pageTitle: 'Baza Klientów (CRM)',
 			},
 		],
 	},
