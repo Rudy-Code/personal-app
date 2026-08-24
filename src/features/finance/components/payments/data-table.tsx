@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { ChevronLeft, ChevronRight, Search, SlidersHorizontal } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -21,6 +23,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { features, type DataTableFeatures } from './data-table-features'
+
+const columnLabels: Record<string, string> = {
+	date: 'Data',
+	description: 'Opis',
+	category: 'Kategoria',
+	account: 'Konto',
+	amount: 'Kwota',
+	actions: 'Akcje',
+}
 
 interface DataTableProps<TData extends RowData> {
 	columns: ColumnDef<DataTableFeatures, TData>[]
@@ -49,15 +60,23 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 	return (
 		<div>
 			{/* Filters */}
-			<div className="flex items-center gap-3 py-4">
-				<Input
-					placeholder="Szukaj transakcji..."
-					value={(table.getColumn('description')?.getFilterValue() as string) ?? ''}
-					onChange={event => table.getColumn('description')?.setFilterValue(event.target.value)}
-					className="max-w-sm border-zinc-400"
-				/>
+			<div className="flex items-center gap-3 py-5">
+				<div className="relative w-full max-w-sm">
+					<Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+					<Input
+						placeholder="Szukaj transakcji..."
+						value={(table.getColumn('description')?.getFilterValue() as string) ?? ''}
+						onChange={event => table.getColumn('description')?.setFilterValue(event.target.value)}
+						className="bg-background/40 border-zinc-600 pl-9 shadow-none focus:border-zinc-300! focus:ring-0!"
+					/>
+				</div>
 				<DropdownMenu>
-					<DropdownMenuTrigger render={<Button variant="outline" className="ml-auto" />}>Kolumny</DropdownMenuTrigger>
+					<DropdownMenuTrigger
+						render={<Button variant="outline" size="sm" className="ml-auto border-zinc-600! hover:border-zinc-300!" />}
+					>
+						<SlidersHorizontal />
+						Widok
+					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						{table
 							.getAllColumns()
@@ -70,7 +89,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 										checked={column.getIsVisible()}
 										onCheckedChange={value => column.toggleVisibility(!!value)}
 									>
-										{column.id}
+										{columnLabels[column.id] ?? column.id}
 									</DropdownMenuCheckboxItem>
 								)
 							})}
@@ -79,14 +98,17 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 			</div>
 
 			{/* table */}
-			<div className="overflow-hidden rounded-md border border-zinc-400">
+			<div className="border-border/70 bg-background/25 overflow-hidden rounded-xl border">
 				<Table>
-					<TableHeader>
+					<TableHeader className="bg-background/45">
 						{table.getHeaderGroups().map(headerGroup => (
-							<TableRow key={headerGroup.id}>
+							<TableRow key={headerGroup.id} className="hover:bg-transparent">
 								{headerGroup.headers.map(header => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead
+											key={header.id}
+											className="text-muted-foreground h-11 px-4 text-[11px] font-bold tracking-wider uppercase first:pl-5 last:pr-5"
+										>
 											{header.isPlaceholder ? null : <table.FlexRender header={header} />}
 										</TableHead>
 									)
@@ -97,9 +119,13 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map(row => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+								<TableRow
+									key={row.id}
+									data-state={row.getIsSelected() && 'selected'}
+									className="border-border/60 hover:bg-background/40"
+								>
 									{row.getVisibleCells().map(cell => (
-										<TableCell key={cell.id}>
+										<TableCell key={cell.id} className="px-4 py-3 first:pl-5 last:pr-5">
 											<table.FlexRender cell={cell} />
 										</TableCell>
 									))}
@@ -107,8 +133,8 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 							))
 						) : (
 							<TableRow>
-								<TableCell colSpan={columns.length} className="h-24 text-center">
-									No results.
+								<TableCell colSpan={columns.length} className="text-muted-foreground h-24 text-center">
+									Brak transakcji.
 								</TableCell>
 							</TableRow>
 						)}
@@ -117,13 +143,30 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 			</div>
 
 			{/* pagination */}
-			<div className="flex items-center justify-end space-x-2 py-4">
-				<Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-					Previous
-				</Button>
-				<Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-					Next
-				</Button>
+			<div className="flex items-center justify-between pt-4">
+				<div />
+				<div className="flex items-center gap-2">
+					<Button
+						variant="outline"
+						size="sm"
+						className="bg-background/40 shadow-none"
+						onClick={() => table.previousPage()}
+						disabled={!table.getCanPreviousPage()}
+					>
+						<ChevronLeft />
+						Poprzednia
+					</Button>
+					<Button
+						variant="outline"
+						size="sm"
+						className="bg-background/40 shadow-none"
+						onClick={() => table.nextPage()}
+						disabled={!table.getCanNextPage()}
+					>
+						Następna
+						<ChevronRight />
+					</Button>
+				</div>
 			</div>
 		</div>
 	)

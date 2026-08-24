@@ -39,10 +39,10 @@ export default function TransactionsPanel() {
 
 	return (
 		<div>
-			<div className="mb-2 flex items-center justify-between">
+			<div className="flex items-start justify-between">
 				<div>
-					<h2 className="text-secondary-foreground text-base font-semibold">Ostatnie transakcje</h2>
-					<p className="text-secondary-foreground/60 text-sm">Przegląd operacji na Twoich kontach</p>
+					<h2 className="text-foreground mt-1 text-lg font-semibold">Ostatnie transakcje</h2>
+					<p className="text-muted-foreground mt-1 text-sm">Przegląd operacji na Twoich kontach</p>
 				</div>
 			</div>
 			<DataTable columns={columns} data={data} />

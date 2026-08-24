@@ -21,7 +21,7 @@ function FinancePage() {
 
 					<Accounts />
 
-					<Card className="col-span-1 bg-app-elevated sm:col-span-2 md:col-span-3 xl:col-span-4">
+					<Card className="bg-app-surface/98 col-span-1 sm:col-span-2 md:col-span-3 xl:col-span-4">
 						<DemoPage />
 					</Card>
 				</div>
