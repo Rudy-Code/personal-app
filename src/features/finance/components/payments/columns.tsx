@@ -32,7 +32,7 @@ export const columns = columnHelper.columns([
 			<Button
 				variant="ghost"
 				size="sm"
-				className="-ml-2 px-2 text-muted-foreground hover:text-foreground"
+				className="text-muted-foreground hover:text-foreground -ml-2 px-2"
 				onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 			>
 				Data
@@ -67,7 +67,9 @@ export const columns = columnHelper.columns([
 			}).format(amount)
 
 			return (
-				<div className={`text-right font-mono text-sm font-bold tabular-nums ${amount < 0 ? 'text-rose-500' : 'text-emerald-500'}`}>
+				<div
+					className={`text-right font-mono text-sm font-bold tabular-nums ${amount < 0 ? 'text-rose-500' : 'text-emerald-500'}`}
+				>
 					{amount > 0 ? '+' : ''}
 					{formatted}
 				</div>
@@ -95,8 +97,11 @@ export const columns = columnHelper.columns([
 							<DropdownMenuItem onClick={() => navigator.clipboard.writeText(transaction.description)}>
 								Kopiuj opis
 							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => navigator.clipboard.writeText(transaction.amount.toString())}>
+								Kopiuj kwotę
+							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem>Wyświetl szczegóły</DropdownMenuItem>
+							{/* TODO: AKCJE */}
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
