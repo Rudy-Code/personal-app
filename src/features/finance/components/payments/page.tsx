@@ -1,24 +1,50 @@
-import { columns, type Payment } from './columns'
+import { columns, type Transaction } from './columns'
 import { DataTable } from './data-table'
 
-export default function DemoPage() {
-	const data: Payment[] = [
+export default function TransactionsPanel() {
+	const data: Transaction[] = [
 		{
 			id: '728ed52f',
-			amount: 100,
-			status: 'pending',
-			email: 'm@example.com',
+			date: '25.08.2026',
+			description: 'Wypłata',
+			category: 'Wynagrodzenie',
+			account: 'Konto Główne',
+			amount: 5800,
 		},
 		{
 			id: '728ed52g',
-			amount: 200,
-			status: 'success',
-			email: 'dede@ddd.com',
+			date: '24.08.2026',
+			description: 'Zakupy spożywcze',
+			category: 'Jedzenie',
+			account: 'Konto Główne',
+			amount: -186.42,
+		},
+		{
+			id: '728ed52h',
+			date: '23.08.2026',
+			description: 'Bilet miesięczny',
+			category: 'Transport',
+			account: 'Konto Główne',
+			amount: -119,
+		},
+		{
+			id: '728ed52i',
+			date: '22.08.2026',
+			description: 'Przelew na oszczędności',
+			category: 'Oszczędności',
+			account: 'Konto Firmowe',
+			amount: -1000,
 		},
 	]
 
 	return (
-		<div className="container mx-auto py-10">
+		<div>
+			<div className="mb-2 flex items-center justify-between">
+				<div>
+					<h2 className="text-secondary-foreground text-base font-semibold">Ostatnie transakcje</h2>
+					<p className="text-secondary-foreground/60 text-sm">Przegląd operacji na Twoich kontach</p>
+				</div>
+			</div>
 			<DataTable columns={columns} data={data} />
 		</div>
 	)

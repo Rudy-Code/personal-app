@@ -47,17 +47,17 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 	})
 
 	return (
-		<div className="">
+		<div>
 			{/* Filters */}
-			<div className="flex items-center py-4">
+			<div className="flex items-center gap-3 py-4">
 				<Input
-					placeholder="Filter emails..."
-					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-					onChange={event => table.getColumn('email')?.setFilterValue(event.target.value)}
-					className="max-w-sm"
+					placeholder="Szukaj transakcji..."
+					value={(table.getColumn('description')?.getFilterValue() as string) ?? ''}
+					onChange={event => table.getColumn('description')?.setFilterValue(event.target.value)}
+					className="max-w-sm border-zinc-400"
 				/>
 				<DropdownMenu>
-					<DropdownMenuTrigger render={<Button variant="outline" className="ml-auto" />}>Columns</DropdownMenuTrigger>
+					<DropdownMenuTrigger render={<Button variant="outline" className="ml-auto" />}>Kolumny</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						{table
 							.getAllColumns()
@@ -79,7 +79,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 			</div>
 
 			{/* table */}
-			<div className="overflow-hidden rounded-md border">
+			<div className="overflow-hidden rounded-md border border-zinc-400">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map(headerGroup => (
