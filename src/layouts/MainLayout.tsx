@@ -14,7 +14,7 @@ export const MainLayout = () => {
 			<CommandPalette />
 
 			<main className="bg-foreground/95 flex min-w-0 flex-1 flex-col overflow-y-auto">
-				<div className="border-border flex h-16 shrink-0 items-center border-b px-4 lg:hidden">
+				<div className="bg-secondary border-border flex h-16 shrink-0 items-center border-b px-4 lg:hidden">
 					<button onClick={() => setIsMobileMenuOpen(true)} className="hover:bg-accent rounded-md p-2">
 						<Menu className="size-6" />
 					</button>
