@@ -3,6 +3,7 @@ import { FinanceOverviewChart } from '../components/FinanceOverviewChart'
 import { FinanceExpensesChart } from '../components/FinanceExpensesChart'
 import { Accounts } from '../components/Accounts'
 import { FinanceOverviewInfo } from '../components/FinanceOverviewInfo'
+import DemoPage from '../components/payments/page'
 
 function FinancePage() {
 	return (
@@ -19,6 +20,10 @@ function FinancePage() {
 					</Card>
 
 					<Accounts />
+
+					<Card className="col-span-1 sm:col-span-2 md:col-span-3 bg-app-elevated" >
+						<DemoPage />
+					</Card>
 				</div>
 			</div>
 		</>
