@@ -11,7 +11,6 @@ import {
 	BriefcaseBusiness,
 	Goal,
 	Flame,
-	Timer,
 	Road,
 } from 'lucide-react'
 
