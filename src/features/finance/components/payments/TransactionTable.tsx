@@ -1,7 +1,12 @@
+import { Button } from '@/components/ui/button'
 import { columns, type Transaction } from './columns'
 import { DataTable } from './data-table'
+import { Plus } from 'lucide-react'
+import { useModalStore } from '@/stores/useModalStore'
 
 export default function TransactionsPanel() {
+	const openModal = useModalStore(state => state.openModal)
+
 	const data: Transaction[] = [
 		{
 			id: '728ed52f',
@@ -46,6 +51,12 @@ export default function TransactionsPanel() {
 				</div>
 			</div>
 			<DataTable columns={columns} data={data} />
+			<div className="mt-2">
+				<Button variant="default" className="" onClick={() => openModal('transaction')}>
+					<Plus className="mr-1" size={14} />
+					Dodaj nową transakcję
+				</Button>
+			</div>
 		</div>
 	)
 }

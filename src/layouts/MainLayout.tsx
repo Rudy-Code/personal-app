@@ -4,14 +4,16 @@ import { Menu } from 'lucide-react'
 import { Header } from '@/components/common/Header'
 import { SideBar } from '@/components/common/SideBar'
 import { CommandPalette } from '@/components/common/CommandPalette'
+import { ModalManager } from '@/components/common/ModalMenager'
 
 export const MainLayout = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
 	return (
-		<div className="bg-background text-foreground flex h-screen w-full overflow-hidden font-sans">
-			<SideBar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+		<div className="bg-background text-foreground relative flex h-screen w-full overflow-hidden font-sans">
+			<ModalManager />
 			<CommandPalette />
+			<SideBar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
 
 			<main className="bg-foreground/95 flex min-w-0 flex-1 flex-col overflow-y-auto">
 				<div className="bg-secondary border-border flex h-16 shrink-0 items-center border-b px-4 lg:hidden">

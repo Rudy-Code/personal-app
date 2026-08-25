@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/ui/Card'
 import { cn } from '@/lib/utils'
 import { Plus, Landmark, Briefcase, Wallet } from 'lucide-react'
+import { useFinanceStore } from '../stores/useFinanceStore'
 
 const accountsData = [
 	{
@@ -34,9 +35,11 @@ const accountsData = [
 ]
 
 export const Accounts = () => {
+	const accounts = useFinanceStore(state => state.accounts)
+	console.log(accounts)
+
 	return (
 		<Card variant="secondary" className="flex flex-col p-5 md:col-span-2 xl:col-span-1">
-			{/* NAGŁÓWEK */}
 			<div className="mb-2 flex w-full items-center justify-between">
 				<h2 className="text-secondary/60 text-xs font-bold tracking-wider uppercase">Moje Konta</h2>
 				<Button
