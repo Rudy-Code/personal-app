@@ -39,29 +39,36 @@ export function FinanceExpensesChart() {
 		<div className="flex w-full flex-col p-1">
 			<h2 className="text-secondary font-semibold tracking-wide">Struktura wydatków</h2>
 
-			<div className="mt-5 mb-6 flex h-4 w-full overflow-hidden rounded-full">
-				{dataWithPercentages.map(item => (
-					<div
-						key={item.name}
-						className={`h-full ${item.color} transition-all duration-500`}
-						style={{ width: `${item.percentage}%` }}
-						title={`${item.name}: ${item.totalAmount} zł`}
-					/>
-				))}
-			</div>
-
-			{/* LEGENDA */}
-			<div className="flex flex-col gap-3">
-				{dataWithPercentages.map(item => (
-					<div key={item.name} className="flex items-center justify-between">
-						<div className="flex items-center gap-3">
-							<div className={`size-3 rounded-full ${item.color}`} />
-							<span className="text-muted-foreground text-sm font-medium">{item.name}</span>
-						</div>
-						<span className="text-secondary font-mono text-sm font-bold tabular-nums">{item.percentage}%</span>
+			{expensesByCategory.length === 0 ? (
+				<div className="mt-4">
+					<span className="text-muted-foreground">Brak wydatków w tym miesiącu</span>
+				</div>
+			) : (
+				<>
+					<div className="mt-5 mb-6 flex h-4 w-full overflow-hidden rounded-full">
+						{dataWithPercentages.map(item => (
+							<div
+								key={item.name}
+								className={`h-full ${item.color} transition-all duration-500`}
+								style={{ width: `${item.percentage}%` }}
+								title={`${item.name}: ${item.totalAmount} zł`}
+							/>
+						))}
 					</div>
-				))}
-			</div>
+
+					<div className="flex flex-col gap-3">
+						{dataWithPercentages.map(item => (
+							<div key={item.name} className="flex items-center justify-between">
+								<div className="flex items-center gap-3">
+									<div className={`size-3 rounded-full ${item.color}`} />
+									<span className="text-muted-foreground text-sm font-medium">{item.name}</span>
+								</div>
+								<span className="text-secondary font-mono text-sm font-bold tabular-nums">{item.percentage}%</span>
+							</div>
+						))}
+					</div>
+				</>
+			)}
 		</div>
 	)
 }
