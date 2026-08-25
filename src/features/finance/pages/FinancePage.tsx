@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/Card'
-import { FinanceOverviewChart } from '../components/FinanceOverviewChart'
+import { FinanceOverviewChart } from '../components/chart/FinanceOverviewChart'
 import { FinanceExpensesChart } from '../components/FinanceExpensesChart'
 import { Accounts } from '../components/Accounts'
 import { FinanceOverviewInfo } from '../components/FinanceOverviewInfo'
