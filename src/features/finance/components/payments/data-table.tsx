@@ -27,26 +27,22 @@ import { features, type DataTableFeatures } from './data-table-features'
 const columnLabels: Record<string, string> = {
 	date: 'Data',
 	description: 'Opis',
-	category: 'Kategoria',
-	account: 'Konto',
+	categoryName: 'Kategoria', // Zmienione z 'category'
+	accountName: 'Konto', // Zmienione z 'account'
 	amount: 'Kwota',
 	actions: 'Akcje',
 }
 
+// Banalnie proste parsowanie daty ISO
 function getTransactionDateTimestamp(value: unknown) {
 	if (typeof value !== 'string') return undefined
-
-	const match = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/)
-	if (!match) return undefined
-
-	return Date.UTC(Number(match[3]), Number(match[2]) - 1, Number(match[1]))
+	return new Date(value).getTime()
 }
 
 function getInputDateTimestamp(value: string) {
 	if (!value) return undefined
-
 	const [year, month, day] = value.split('-').map(Number)
-	return Date.UTC(year, month - 1, day)
+	return new Date(year, month - 1, day).getTime()
 }
 
 interface DataTableProps<TData extends RowData> {
@@ -62,24 +58,30 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 	const [dateFrom, setDateFrom] = useState('')
 	const [dateTo, setDateTo] = useState('')
 
+	// Automatyczne wyciąganie unikalnych kategorii z nowych danych
 	const categories = Array.from(
 		new Set(
 			data
-				.map(row => (row as Record<string, unknown>).category)
-				.filter((value): value is string => typeof value === 'string')
+				.map(row => (row as Record<string, unknown>).categoryName) // <-- Używamy categoryName
+				.filter((value): value is string => typeof value === 'string' && value !== '-')
 		)
 	).sort()
 
 	const fromTimestamp = getInputDateTimestamp(dateFrom)
 	const toTimestamp = getInputDateTimestamp(dateTo)
+
+	// Filtrowanie działa na categoryName
 	const filteredData = data.filter(row => {
 		const transaction = row as Record<string, unknown>
 		const transactionTimestamp = getTransactionDateTimestamp(transaction.date)
-		const isSelectedCategory = category === 'all' || transaction.category === category
+		const isSelectedCategory = category === 'all' || transaction.categoryName === category
+
+		// Zabezpieczenie przed błędami czasu (początek i koniec dnia)
 		const isAfterStart =
 			fromTimestamp === undefined || (transactionTimestamp !== undefined && transactionTimestamp >= fromTimestamp)
 		const isBeforeEnd =
-			toTimestamp === undefined || (transactionTimestamp !== undefined && transactionTimestamp <= toTimestamp)
+			toTimestamp === undefined ||
+			(transactionTimestamp !== undefined && transactionTimestamp <= toTimestamp + 86400000) // +1 dzień, żeby uwzględnić cały wybrany dzień
 
 		return isSelectedCategory && isAfterStart && isBeforeEnd
 	})

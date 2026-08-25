@@ -14,13 +14,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { type DataTableFeatures } from './data-table-features'
+import { format } from 'date-fns'
+import { pl } from 'date-fns/locale'
 
 export type Transaction = {
 	id: string
 	date: string
 	description: string
-	category: string
-	account: string
+	categoryName: string
+	accountName: string
 	amount: number
 }
 
@@ -39,13 +41,15 @@ export const columns = columnHelper.columns([
 				<ArrowUpDown className="size-3.5" />
 			</Button>
 		),
-		cell: ({ getValue }) => <span className="text-muted-foreground font-mono text-xs tabular-nums">{getValue()}</span>,
+		cell: ({ row }) => {
+			return format(new Date(row.getValue('date')), 'dd MMM yyyy', { locale: pl })
+		},
 	}),
 	columnHelper.accessor('description', {
 		header: 'Opis',
 		cell: ({ getValue }) => <span className="text-foreground font-medium">{getValue()}</span>,
 	}),
-	columnHelper.accessor('category', {
+	columnHelper.accessor('categoryName', {
 		header: 'Kategoria',
 		cell: ({ getValue }) => (
 			<span className="bg-background/60 text-muted-foreground inline-flex rounded-md px-2 py-1 text-xs font-medium">
@@ -53,7 +57,7 @@ export const columns = columnHelper.columns([
 			</span>
 		),
 	}),
-	columnHelper.accessor('account', {
+	columnHelper.accessor('accountName', {
 		header: 'Konto',
 		cell: ({ getValue }) => <span className="text-muted-foreground text-sm">{getValue()}</span>,
 	}),
