@@ -2,7 +2,7 @@ export const formatCurrency = (value: number): string => {
 	return new Intl.NumberFormat('pl-PL', {
 		style: 'currency',
 		currency: 'PLN',
-		notation: 'compact',
+		// notation: 'compact',
 		minimumFractionDigits: 2,
 	}).format(value)
 }

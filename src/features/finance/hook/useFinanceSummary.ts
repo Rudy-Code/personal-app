@@ -14,14 +14,24 @@ export const useFinanceSummary = (targetMonth?: number, targetYear?: number) => 
 		const prevMonth = month === 1 ? 12 : month - 1
 		const prevYear = month === 1 ? year - 1 : year
 
-		const initialTotal = accounts.reduce((sum, acc) => sum + acc.balance, 0)
+		const initialTotal = accounts.reduce((sum, acc) => sum + (acc.balance || 0), 0)
 
-		const historicalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0)
-		const historicalExpense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0)
+		const upToTargetMonthTransactions = transactions.filter(t => {
+			const date = new Date(t.date)
+			return date.getFullYear() < year || (date.getFullYear() === year && date.getMonth() + 1 <= month)
+		})
 
-		const totalBalance = initialTotal + historicalIncome - historicalExpense
+		const targetHistoricalIncome = upToTargetMonthTransactions
+			.filter(t => t.type === 'income')
+			.reduce((sum, t) => sum + t.amount, 0)
 
-		// --- CAŁKOWITE SALDO W POPRZEDNIM MIESIĄCU (Do wyliczania wzrostu %) ---
+		const targetHistoricalExpense = upToTargetMonthTransactions
+			.filter(t => t.type === 'expense')
+			.reduce((sum, t) => sum + t.amount, 0)
+
+		const totalBalance = initialTotal + targetHistoricalIncome - targetHistoricalExpense
+
+		// --- CAŁKOWITE SALDO W POPRZEDNIM MIESIĄCU ---
 		const upToPrevMonthTransactions = transactions.filter(t => {
 			const date = new Date(t.date)
 			return date.getFullYear() < prevYear || (date.getFullYear() === prevYear && date.getMonth() + 1 <= prevMonth)
@@ -36,9 +46,9 @@ export const useFinanceSummary = (targetMonth?: number, targetYear?: number) => 
 			.reduce((sum, t) => sum + t.amount, 0)
 
 		const prevTotalBalance = initialTotal + prevHistoricalIncome - prevHistoricalExpense
+
 		const balanceGrowthPercent = prevTotalBalance > 0 ? ((totalBalance - prevTotalBalance) / prevTotalBalance) * 100 : 0
 
-		// --- STATYSTYKI OKRESOWE (Dla aktualnie wybranego miesiąca) ---
 		const currentMonthTransactions = transactions.filter(t => {
 			const date = new Date(t.date)
 			return date.getMonth() + 1 === month && date.getFullYear() === year

@@ -53,7 +53,9 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				</div>
 
 				<div className="mt-4">
-					<h3 className="text-secondary-foreground text-2xl font-bold sm:text-3xl truncate">{formatCurrency(totalBalance)}</h3>
+					<h3 className="text-secondary-foreground truncate text-2xl font-bold sm:text-3xl">
+						{formatCurrency(totalBalance)}
+					</h3>
 					<p
 						className={cn(
 							'mt-2 flex items-center gap-1 text-xs',
@@ -73,7 +75,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 			<Card className="py-6">
 				<div className="flex items-center justify-between">
 					<div className="flex w-full items-center justify-between gap-3">
-						<h2 className="text-muted-foreground text-xs font-bold tracking-wider uppercase truncate">
+						<h2 className="text-muted-foreground truncate text-xs font-bold tracking-wider uppercase">
 							{formatCurrency(monthlyIncome)} ({formatDateMonth(month)})
 						</h2>
 					</div>
@@ -82,7 +84,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				<div className="mt-4">
 					<div className="flex items-center gap-2">
 						<span className="text-xl font-bold text-emerald-500 md:text-3xl">+</span>
-						<h3 className="text-foreground font-mono text-2xl font-bold tabular-nums sm:text-3xl truncate">
+						<h3 className="text-foreground truncate font-mono text-2xl font-bold tabular-nums sm:text-3xl">
 							{formatCurrency(monthlyIncome)}
 						</h3>
 					</div>
@@ -93,7 +95,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 			<Card className="py-6">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<h2 className="text-muted-foreground text-xs font-bold tracking-wider uppercase truncate">
+						<h2 className="text-muted-foreground truncate text-xs font-bold tracking-wider uppercase">
 							{formatCurrency(monthlyExpense)} ({formatDateMonth(month)})
 						</h2>
 					</div>
@@ -102,7 +104,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				<div className="mt-4">
 					<div className="flex items-center gap-2">
 						<span className="text-xl font-bold text-red-500 md:text-3xl">-</span>
-						<h3 className="text-foreground font-mono text-2xl font-bold tabular-nums sm:text-3xl truncate">
+						<h3 className="text-foreground truncate font-mono text-2xl font-bold tabular-nums sm:text-3xl">
 							{formatCurrency(monthlyExpense)}
 						</h3>
 					</div>
@@ -113,7 +115,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 			<Card className="py-6">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<h2 className="text-muted-foreground text-xs font-bold tracking-wider uppercase truncate">
+						<h2 className="text-muted-foreground truncate text-xs font-bold tracking-wider uppercase">
 							Bilans ({formatDateMonth(month)})
 						</h2>
 					</div>
@@ -121,9 +123,18 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 
 				<div className="mt-4">
 					<div className="flex items-center gap-2">
-						<span className="text-xl font-bold text-emerald-500 md:text-3xl">+</span>
-						<h3 className="text-foreground font-mono text-2xl font-bold tabular-nums sm:text-3xl truncate">
-							{formatCurrency(monthlyBalance)}
+						<span
+							className={cn('text-xl font-bold md:text-3xl', monthlyBalance < 0 ? 'text-rose-500' : 'text-emerald-500')}
+						>
+							{monthlyBalance >= 0 ? '+' : '-'}
+						</span>
+						<h3
+							className={cn(
+								'text-foreground truncate font-mono text-2xl font-bold tabular-nums sm:text-3xl',
+								monthlyBalance < 0 ? 'text-rose-500' : 'text-emerald-500'
+							)}
+						>
+							{formatCurrency(monthlyBalance).slice(1)}
 						</h3>
 					</div>
 				</div>
