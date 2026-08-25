@@ -18,8 +18,8 @@ export function TransactionModal() {
 			<Dialog open={isOpen} onOpenChange={open => !open && closeModal()}>
 				<DialogContent className="sm:max-w-106.25">
 					<DialogHeader>
-						<DialogTitle>Edit profile</DialogTitle>
-						<DialogDescription>Make changes to your profile here. Click save when you&apos;re done.</DialogDescription>
+						<DialogTitle>Dodaj Transakcję</DialogTitle>
+						<DialogDescription>Wprowadź dane dotyczące nowej transakcji.</DialogDescription>
 					</DialogHeader>
 					<ProfileForm />
 				</DialogContent>
@@ -31,8 +31,8 @@ export function TransactionModal() {
 		<Drawer open={isOpen} onOpenChange={open => !open && closeModal()}>
 			<DrawerContent>
 				<DrawerHeader className="text-left">
-					<DrawerTitle>Edit profile</DrawerTitle>
-					<DrawerDescription>Make changes to your profile here. Click save when you&apos;re done.</DrawerDescription>
+					<DrawerTitle>Dodaj Transakcję</DrawerTitle>
+					<DrawerDescription>Wprowadź dane dotyczące nowej transakcji.</DrawerDescription>
 				</DrawerHeader>
 				<ProfileForm className="p-4" />
 			</DrawerContent>

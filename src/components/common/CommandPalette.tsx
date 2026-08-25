@@ -14,9 +14,11 @@ import {
 import { SIDEBAR_NAVIGATION } from '@/config/navigation'
 import { Plus, Settings } from 'lucide-react'
 import { useUIStore } from '@stores/useUIStore'
+import { useModalStore } from '@/stores/useModalStore'
 
 export const CommandPalette = () => {
 	const navigate = useNavigate()
+	const openModal = useModalStore(state => state.openModal)
 
 	const isCommandOpen = useUIStore(state => state.isCommandOpen)
 	const setCommandOpen = useUIStore(state => state.setCommandOpen)
@@ -24,7 +26,7 @@ export const CommandPalette = () => {
 
 	useEffect(() => {
 		const down = (e: KeyboardEvent) => {
-			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+			if ((e.key === 'k' || e.key === '/') && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault()
 				toggleCommand()
 			}
@@ -45,6 +47,10 @@ export const CommandPalette = () => {
 				<CommandEmpty>Brak wyników.</CommandEmpty>
 
 				<CommandGroup heading="Szybkie akcje">
+					<CommandItem onSelect={() => runCommand(() => openModal('transaction'))}>
+						<Plus className="mr-2 size-4" />
+						<span>Dodaj transakcję</span>
+					</CommandItem>
 					<CommandItem onSelect={() => runCommand(() => console.log('Otwórz modal nowej faktury'))}>
 						<Plus className="mr-2 size-4" />
 						<span>Nowa faktura (NDG)</span>

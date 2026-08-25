@@ -23,12 +23,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { features, type DataTableFeatures } from './data-table-features'
+import { useFinanceStore } from '../../stores/useFinanceStore'
 
 const columnLabels: Record<string, string> = {
 	date: 'Data',
 	description: 'Opis',
-	categoryName: 'Kategoria', // Zmienione z 'category'
-	accountName: 'Konto', // Zmienione z 'account'
+	categoryName: 'Kategoria',
+	accountName: 'Konto',
 	amount: 'Kwota',
 	actions: 'Akcje',
 }
@@ -58,14 +59,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 	const [dateFrom, setDateFrom] = useState('')
 	const [dateTo, setDateTo] = useState('')
 
-	// Automatyczne wyciąganie unikalnych kategorii z nowych danych
-	const categories = Array.from(
-		new Set(
-			data
-				.map(row => (row as Record<string, unknown>).categoryName) // <-- Używamy categoryName
-				.filter((value): value is string => typeof value === 'string' && value !== '-')
-		)
-	).sort()
+	const categories = useFinanceStore(state => state.categories)
 
 	const fromTimestamp = getInputDateTimestamp(dateFrom)
 	const toTimestamp = getInputDateTimestamp(dateTo)
@@ -121,9 +115,9 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 						className="bg-app-bg text-foreground h-9 rounded-md border border-zinc-600 px-2.5 text-sm outline-none focus:border-zinc-300! focus:ring-0!"
 					>
 						<option value="all">Wszystkie kategorie</option>
-						{categories.map(option => (
-							<option key={option} value={option}>
-								{option}
+						{categories.map(category => (
+							<option key={category.id} value={category.name}>
+								{category.name}
 							</option>
 						))}
 					</select>

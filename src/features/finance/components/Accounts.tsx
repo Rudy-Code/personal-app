@@ -1,43 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/Card'
 import { cn } from '@/lib/utils'
-import { Plus, Landmark, Briefcase, Wallet, type LucideProps } from 'lucide-react'
+import { Plus } from 'lucide-react'
+import { type IconName } from 'lucide-react/dynamic'
 import { DynamicIcon } from 'lucide-react/dynamic'
 import { useAccounts } from '../hook/useAccounts'
 
-const accountsData = [
-	{
-		id: '1',
-		name: 'Konto Główne',
-		bank: 'mBank',
-		balance: 12450.4,
-		icon: Landmark,
-		iconColor: 'text-emerald-600', // Lekko przyciemniony dla lepszego kontrastu na białym
-		iconBg: 'bg-emerald-500/15',
-	},
-	{
-		id: '2',
-		name: 'Konto Firmowe',
-		bank: 'mBank',
-		balance: 12450.4,
-		icon: Briefcase,
-		iconColor: 'text-blue-600',
-		iconBg: 'bg-blue-500/15',
-	},
-	{
-		id: '3',
-		name: 'Gotówka',
-		bank: 'Portfel',
-		balance: 350.0,
-		icon: Wallet,
-		iconColor: 'text-amber-600',
-		iconBg: 'bg-amber-500/15',
-	},
-]
-
 export const Accounts = () => {
 	const accounts = useAccounts()
-	console.log(accounts)
 
 	return (
 		<Card variant="secondary" className="flex flex-col p-5 md:col-span-2 xl:col-span-1">
@@ -60,10 +30,8 @@ export const Accounts = () => {
 						className="group -mx-2 flex cursor-pointer flex-col justify-between rounded-xl p-2 transition-colors hover:bg-black/5 sm:flex-row sm:items-center"
 					>
 						<div className="flex items-center gap-3">
-							{/* Dodałem bg-black/5, żeby kolor (np. text-emerald-600) miał tło */}
 							<div className={cn(`flex size-10 items-center justify-center rounded-full bg-black/5`, acc.color)}>
-								
-								<DynamicIcon name={acc.icon.toLowerCase() as LucideProps} />
+								<DynamicIcon name={acc.icon.toLowerCase() as IconName} />
 							</div>
 							<div>
 								<h3 className="text-secondary font-semibold transition-colors">{acc.name}</h3>
@@ -72,7 +40,6 @@ export const Accounts = () => {
 						</div>
 						<div className="text-right">
 							<p className="text-secondary font-mono text-base font-bold tracking-tight tabular-nums">
-								
 								{acc.currentBalance.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
 								<span className="text-secondary/60 ml-1 text-xs font-normal">zł</span>
 							</p>

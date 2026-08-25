@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 interface MonthYearPickerProps {
-	month: number // 1 - 12
+	month: number
 	year: number
 	onChange: (month: number, year: number) => void
 	className?: string
@@ -32,14 +32,11 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 	const [isOpen, setIsOpen] = useState(false)
 	const [pickerYear, setPickerYear] = useState(year)
 
-	// Synchronizuj rok wewnątrz popovera ze stanem zewnętrznym
-
 	const now = new Date()
 	const currentRealMonth = now.getMonth() + 1
 	const currentRealYear = now.getFullYear()
 	const isCurrentPeriod = month === currentRealMonth && year === currentRealYear
 
-	// Nawigacja strzałkami krok po kroku
 	const handlePrevMonth = () => {
 		if (month === 1) {
 			onChange(12, year - 1)
@@ -67,7 +64,6 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 
 	return (
 		<div className={cn('flex flex-wrap items-center gap-2', className)}>
-			{/* GRUPA PRZYCISKÓW NAWIGACJI */}
 			<div className="border-border bg-card flex items-center rounded-xl border p-1 shadow-sm">
 				<Button
 					variant="ghost"
@@ -79,7 +75,6 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 					<ChevronLeft className="size-4" />
 				</Button>
 
-				{/* GŁÓWNY POPOVER Z WYBOREM */}
 				<Popover open={isOpen} onOpenChange={setIsOpen}>
 					<PopoverTrigger
 						render={
@@ -95,7 +90,6 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 						}
 					></PopoverTrigger>
 					<PopoverContent className="w-64 p-3" align="start">
-						{/* Nawigacja rokiem wewnątrz popovera */}
 						<div className="border-border mb-3 flex items-center justify-between border-b pb-2">
 							<Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setPickerYear(prev => prev - 1)}>
 								<ChevronsLeft className="size-4" />
@@ -106,7 +100,6 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 							</Button>
 						</div>
 
-						{/* Siatka 12 miesięcy */}
 						<div className="grid grid-cols-3 gap-1.5">
 							{MONTH_NAMES.map((name, index) => {
 								const isSelected = month === index + 1 && year === pickerYear
@@ -145,12 +138,7 @@ export const MonthYearPicker = ({ month, year, onChange, className }: MonthYearP
 
 			{/* SZYBKI POWRÓT DO DZISIAJ */}
 			{!isCurrentPeriod && (
-				<Button
-					variant="outline"
-					size="sm"
-					className="text-muted-foreground hover:text-foreground h-10 rounded-xl px-3 text-xs font-medium"
-					onClick={handleResetToday}
-				>
+				<Button size="lg" variant="secondary" className="" onClick={handleResetToday}>
 					Bieżący miesiąc
 				</Button>
 			)}

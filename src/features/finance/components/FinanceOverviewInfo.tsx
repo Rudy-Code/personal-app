@@ -1,15 +1,47 @@
 import { Card } from '@/components/ui/Card'
-import { TrendingUp } from 'lucide-react'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 import { useFinanceSummary } from '../hook/useFinanceSummary'
 import { formatCurrency, formatDateMonth } from '@/utils/formatters'
+import { cn } from '@/lib/utils'
 
 interface FinanceOverviewInfoProps {
 	month: number
 	year: number
 }
 
+const getExpenseLimitUI = (percent: number) => {
+	const formattedPercent = Math.round(percent)
+
+	if (percent >= 100) {
+		return {
+			status: 'Przekroczono limit',
+			color: 'text-rose-500',
+		}
+	}
+	if (percent >= 80) {
+		return {
+			status: `${formattedPercent}% limitu miesięcznego`,
+			color: 'text-amber-500',
+		}
+	}
+	return {
+		expenseStatus: `${formattedPercent}% limitu miesięcznego`,
+		expenseColor: 'text-emerald-500',
+	}
+}
+
 export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) => {
-	const { totalBalance, balanceGrowthPercent, monthlyIncome, monthlyExpense, monthlyBalance } = useFinanceSummary()
+	const {
+		totalBalance,
+		balanceGrowthPercent,
+		monthlyIncome,
+		monthlyExpense,
+		monthlyBalance,
+		expenseLimitPercent,
+		isIncomeOnTrack,
+	} = useFinanceSummary(month, year)
+
+	const { expenseStatus, expenseColor } = getExpenseLimitUI(expenseLimitPercent)
 
 	return (
 		<>
@@ -22,9 +54,17 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 
 				<div className="mt-4">
 					<h3 className="text-secondary-foreground text-2xl font-bold sm:text-3xl">{formatCurrency(totalBalance)}</h3>
-					<p className="mt-2 flex items-center gap-1 text-xs text-green-500">
-						{/* TODO: Zmiana kolorow, ikon w zalezności od wartości */}
-						<TrendingUp size={14} className="text-emerald-500" />
+					<p
+						className={cn(
+							'mt-2 flex items-center gap-1 text-xs',
+							balanceGrowthPercent >= 0 ? 'text-green-500' : 'text-rose-500'
+						)}
+					>
+						{balanceGrowthPercent >= 0 ? (
+							<TrendingUp size={14} className="text-emerald-500" />
+						) : (
+							<TrendingDown size={14} className="text-rose-500" />
+						)}
 						{balanceGrowthPercent.toFixed(1)}% od ost. miesiąca
 					</p>
 				</div>
@@ -46,7 +86,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 							{formatCurrency(monthlyIncome)}
 						</h3>
 					</div>
-					<p className="text-muted-foreground mt-2 text-xs">Zgodnie z planem</p>
+					<p className="text-muted-foreground mt-2 text-xs">{isIncomeOnTrack ? 'Zgodnie z planem' : 'Poza planem'}</p>
 				</div>
 			</Card>
 
@@ -66,7 +106,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 							{formatCurrency(monthlyExpense)}
 						</h3>
 					</div>
-					<p className="mt-2 text-xs text-amber-400">90% limitu miesięcznego</p>
+					<p className={cn('mt-2 text-xs', expenseColor)}>{expenseStatus}</p>
 				</div>
 			</Card>
 
