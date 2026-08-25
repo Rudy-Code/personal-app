@@ -76,7 +76,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				<div className="flex items-center justify-between">
 					<div className="flex w-full items-center justify-between gap-3">
 						<h2 className="text-muted-foreground truncate text-xs font-bold tracking-wider uppercase">
-							{formatCurrency(monthlyIncome)} ({formatDateMonth(month)})
+							Przychody ({formatDateMonth(month)})
 						</h2>
 					</div>
 				</div>
@@ -96,7 +96,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
 						<h2 className="text-muted-foreground truncate text-xs font-bold tracking-wider uppercase">
-							{formatCurrency(monthlyExpense)} ({formatDateMonth(month)})
+							Wydatki ({formatDateMonth(month)})
 						</h2>
 					</div>
 				</div>
@@ -124,17 +124,20 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 				<div className="mt-4">
 					<div className="flex items-center gap-2">
 						<span
-							className={cn('text-xl font-bold md:text-3xl', monthlyBalance < 0 ? 'text-rose-500' : 'text-emerald-500')}
+							className={cn(
+								'text-xl font-bold md:text-3xl',
+								monthlyBalance <= 0 ? 'text-rose-500' : 'text-emerald-500'
+							)}
 						>
 							{monthlyBalance >= 0 ? '+' : '-'}
 						</span>
 						<h3
 							className={cn(
 								'text-foreground truncate font-mono text-2xl font-bold tabular-nums sm:text-3xl',
-								monthlyBalance < 0 ? 'text-rose-500' : 'text-emerald-500'
+								monthlyBalance <= 0 ? 'text-rose-500' : 'text-emerald-500'
 							)}
 						>
-							{formatCurrency(monthlyBalance).slice(1)}
+							{formatCurrency(monthlyBalance)}
 						</h3>
 					</div>
 				</div>

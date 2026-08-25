@@ -1,24 +1,39 @@
 'use client'
 
 import { useMemo } from 'react'
-
-// TODO: Docelowo te dane wpadną z Twojego store'a
-const rawExpensesData = [
-	{ category: 'Mieszkanie', amount: 2100, color: 'bg-rose-500' },
-	{ category: 'Jedzenie', amount: 1250, color: 'bg-amber-400' },
-	{ category: 'Transport', amount: 450, color: 'bg-blue-500' },
-	{ category: 'Inne', amount: 150, color: 'bg-slate-300' },
-]
+import { useFinanceStore } from '../stores/useFinanceStore'
 
 export function FinanceExpensesChart() {
-	const dataWithPercentages = useMemo(() => {
-		const total = rawExpensesData.reduce((acc, curr) => acc + curr.amount, 0)
+	const { categories, transactions } = useFinanceStore.getState()
+	const expensesData = transactions.filter(t => t.type === 'expense')
 
-		return rawExpensesData.map(item => ({
+	const expensesByCategory = categories
+		.filter(category => category.type === 'expense')
+		.map(category => {
+			const categoryExpenses = expensesData.filter(t => t.categoryId === category.id)
+
+			const totalAmount = categoryExpenses.reduce((sum, t) => sum + t.amount, 0)
+
+			return {
+				id: category.id,
+				name: category.name,
+				color: category.color,
+				totalAmount,
+			}
+		})
+		.filter(item => item.totalAmount > 0)
+		.sort((a, b) => b.totalAmount - a.totalAmount)
+
+	console.log(expensesByCategory)
+
+	const dataWithPercentages = useMemo(() => {
+		const total = expensesByCategory.reduce((acc, curr) => acc + curr.totalAmount, 0)
+
+		return expensesByCategory.map(item => ({
 			...item,
-			percentage: total > 0 ? Math.round((item.amount / total) * 100) : 0,
+			percentage: total > 0 ? Math.round((item.totalAmount / total) * 100) : 0,
 		}))
-	}, [])
+	}, [expensesByCategory])
 
 	return (
 		<div className="flex w-full flex-col p-1">
@@ -27,10 +42,10 @@ export function FinanceExpensesChart() {
 			<div className="mt-5 mb-6 flex h-4 w-full overflow-hidden rounded-full">
 				{dataWithPercentages.map(item => (
 					<div
-						key={item.category}
+						key={item.name}
 						className={`h-full ${item.color} transition-all duration-500`}
 						style={{ width: `${item.percentage}%` }}
-						title={`${item.category}: ${item.amount} zł`}
+						title={`${item.name}: ${item.totalAmount} zł`}
 					/>
 				))}
 			</div>
@@ -38,10 +53,10 @@ export function FinanceExpensesChart() {
 			{/* LEGENDA */}
 			<div className="flex flex-col gap-3">
 				{dataWithPercentages.map(item => (
-					<div key={item.category} className="flex items-center justify-between">
+					<div key={item.name} className="flex items-center justify-between">
 						<div className="flex items-center gap-3">
 							<div className={`size-3 rounded-full ${item.color}`} />
-							<span className="text-muted-foreground text-sm font-medium">{item.category}</span>
+							<span className="text-muted-foreground text-sm font-medium">{item.name}</span>
 						</div>
 						<span className="text-secondary font-mono text-sm font-bold tabular-nums">{item.percentage}%</span>
 					</div>

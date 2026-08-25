@@ -5,6 +5,7 @@ import { Header } from '@/components/common/Header'
 import { SideBar } from '@/components/common/SideBar'
 import { CommandPalette } from '@/components/common/CommandPalette'
 import { ModalManager } from '@/components/common/ModalMenager'
+import { Toaster } from '@/components/ui/toast'
 
 export const MainLayout = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -13,6 +14,8 @@ export const MainLayout = () => {
 		<div className="bg-background text-foreground relative flex h-screen w-full overflow-hidden font-sans">
 			<ModalManager />
 			<CommandPalette />
+			<Toaster />
+			
 			<SideBar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
 
 			<main className="bg-foreground/95 flex min-w-0 flex-1 flex-col overflow-y-auto">

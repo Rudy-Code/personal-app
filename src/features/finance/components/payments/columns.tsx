@@ -18,6 +18,7 @@ import {
 
 import { useFinanceStore } from '../../stores/useFinanceStore'
 import type { TransactionType } from '../../types'
+import { toast } from '@/components/ui/toast'
 
 export type Transaction = {
 	id: string
@@ -27,6 +28,31 @@ export type Transaction = {
 	accountName: string
 	amount: number
 	type: TransactionType
+}
+
+const handleEditTransaction = (transactionId: string) => {
+	// TODO: Implement the logic to open the edit modal
+	console.log('Edit transaction', transactionId)
+}
+
+const handleDeleteTransaction = (transactionId: string) => {
+	const { deleteTransaction, transactions } = useFinanceStore.getState()
+	const deleted = transactions.find(t => t.id === transactionId)
+
+	deleteTransaction(transactionId)
+
+	toast.add({
+		title: 'Transakcja usunięta',
+		type: 'success',
+		actionProps: {
+			children: 'Cofnij',
+			onClick: () => {
+				const { addTransaction } = useFinanceStore.getState()
+				if (deleted) addTransaction(deleted)
+				toast.close()
+			},
+		},
+	})
 }
 
 const columnHelper = createColumnHelper<DataTableFeatures, Transaction>()
@@ -109,13 +135,8 @@ export const columns = columnHelper.columns([
 						<DropdownMenuGroup>
 							<DropdownMenuLabel>Akcje</DropdownMenuLabel>
 
-							<DropdownMenuItem onClick={() => console.log('Edit transaction', transaction.id)}>
-								Edytuj
-							</DropdownMenuItem>
-							<DropdownMenuItem
-								className="text-rose-500"
-								onClick={() => useFinanceStore.getState().deleteTransaction(transaction.id)}
-							>
+							<DropdownMenuItem onClick={() => handleEditTransaction(transaction.id)}>Edytuj</DropdownMenuItem>
+							<DropdownMenuItem className="text-rose-500" onClick={() => handleDeleteTransaction(transaction.id)}>
 								Usuń
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
