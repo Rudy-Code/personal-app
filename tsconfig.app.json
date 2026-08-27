@@ -25,7 +25,7 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@features/*": ["./src/features/*"],
-			"@pages/*": ["src/features/dashboard/pages/*"],
+			"@pages/*": ["./src/features/dashboard/pages/*"],
 			"@components/*": ["./src/components/*"],
 			"@stores/*": ["./src/stores/*"]
 		}
