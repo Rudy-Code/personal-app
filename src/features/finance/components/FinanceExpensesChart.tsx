@@ -24,8 +24,6 @@ export function FinanceExpensesChart() {
 		.filter(item => item.totalAmount > 0)
 		.sort((a, b) => b.totalAmount - a.totalAmount)
 
-	console.log(expensesByCategory)
-
 	const dataWithPercentages = useMemo(() => {
 		const total = expensesByCategory.reduce((acc, curr) => acc + curr.totalAmount, 0)
 

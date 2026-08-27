@@ -7,6 +7,15 @@ export const formatCurrency = (value: number): string => {
 	}).format(value)
 }
 
+export const formatCurrencyWithoutCurrency = (value: number): string => {
+	return new Intl.NumberFormat('pl-PL', {
+		style: 'currency',
+		currency: 'PLN',
+
+		minimumFractionDigits: 2,
+	}).format(value).slice(0, -2)
+}
+
 export const formatDate = (date: Date): string => {
 	return new Intl.DateTimeFormat('pl-PL', {
 		year: 'numeric',
