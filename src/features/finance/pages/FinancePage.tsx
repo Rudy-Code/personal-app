@@ -25,7 +25,7 @@ function FinancePage() {
 				}}
 			/>
 
-			<div className="flex flex-col sm:px-4 sm:py-6">
+			<div className="flex flex-col sm:px-4 sm:py-6 mt-4 sm:mt-0">
 				<div className="grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
 					<FinanceOverviewInfo month={selectedMonth} year={selectedYear} />
 

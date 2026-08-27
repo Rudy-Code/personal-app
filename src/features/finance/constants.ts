@@ -42,7 +42,7 @@ export const ACCOUNT_ICONS: { id: string; icon: LucideIcon }[] = [
 	{ id: 'gift', icon: Gift },
 	{ id: 'hand-coins', icon: HandCoins },
 ]
-export const ACCOUNT_COLORS: { name: string; bg: string; text: string }[] = [
+export const COLORS: { name: string; bg: string; text: string }[] = [
 	{ name: 'emerald', bg: 'bg-emerald-600', text: 'text-emerald-600' },
 	{ name: 'blue', bg: 'bg-blue-600', text: 'text-blue-600' },
 	{ name: 'amber', bg: 'bg-amber-600', text: 'text-amber-600' },

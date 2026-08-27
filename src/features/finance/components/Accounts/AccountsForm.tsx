@@ -25,7 +25,7 @@ const formSchema = z.object({
 	name: z
 		.string()
 		.trim()
-		.min(5, 'Nazwa konta musi mieć co najmniej 5 znaków.')
+		.min(3, 'Nazwa konta musi mieć co najmniej 3 znaki.')
 		.max(32, 'Nazwa konta musi mieć co najwyżej 32 znaki.'),
 
 	description: z.string().trim().max(100, 'Opis może mieć co najwyżej 100 znaków.').optional().or(z.literal('')),

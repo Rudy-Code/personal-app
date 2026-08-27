@@ -9,8 +9,7 @@ import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 
 import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ACCOUNT_ICONS, ACCOUNT_COLORS } from '../../constants'
-
+import { ACCOUNT_ICONS, COLORS } from '../../constants'
 
 interface AccountPersonalizationFormFieldProps<TFieldValues extends FieldValues> {
 	control: Control<TFieldValues>
@@ -105,7 +104,7 @@ export function AccountPersonalizationFormField<TFieldValues extends FieldValues
 										<div>
 											<p className="text-muted-foreground mb-2 text-xs font-medium">Kolor tła</p>
 											<div className="grid grid-cols-6 gap-2">
-												{ACCOUNT_COLORS.map(({ name, bg }) => {
+												{COLORS.map(({ name, bg }) => {
 													const isSelected = colorField.value === bg
 
 													return (

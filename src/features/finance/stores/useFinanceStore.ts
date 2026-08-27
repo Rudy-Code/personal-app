@@ -57,6 +57,22 @@ export const useFinanceStore = create<FinanceState>()(
 				set(state => ({
 					transactions: state.transactions.filter(t => t.id !== id),
 				})),
+
+			// --- KATEGORIE ---
+			addCategory: newCategory =>
+				set(state => ({
+					categories: [...state.categories, { ...newCategory, id: uuidv4() }],
+				})),
+			updateCategory: (id, updatedFields) =>
+				set(state => ({
+					categories: state.categories.map(category =>
+						category.id === id ? { ...category, ...updatedFields } : category
+					),
+				})),
+			deleteCategory: id =>
+				set(state => ({
+					categories: state.categories.filter(t => t.id !== id),
+				})),
 		}),
 		{
 			name: 'finance-storage',

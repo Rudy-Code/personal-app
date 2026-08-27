@@ -45,7 +45,12 @@ export interface FinanceState {
 	updateAccount: (id: string, updatedFields: Partial<Account>) => void
 	archiveAccount: (id: string) => void
 	deleteAccount: (id: string) => void
+
 	addTransaction: (t: Omit<Transaction, 'id'>) => void
 	updateTransaction: (id: string, updatedFields: Partial<Transaction>) => void
 	deleteTransaction: (id: string) => void
+
+	addCategory: (newCategory: Omit<Category, 'id'>) => void
+	updateCategory: (id: string, updatedFields: Partial<Category>) => void
+	deleteCategory: (id: string) => void
 }
