@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Plus, X } from 'lucide-react'
+import { Plus, Settings, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import { SIDEBAR_NAVIGATION } from '@/config/navigation'
@@ -67,7 +67,13 @@ export const SideBar = ({ isOpen, onClose }: SideBarProps) => {
 					))}
 				</div>
 
-				<div className="border-sidebar-border mt-auto border-t pt-4">
+				<div className="border-sidebar-border mt-auto flex flex-col gap-2 border-t pt-4">
+					<Button variant="outline" className="w-full">
+						<NavLink to="/settings" className="flex w-full items-center justify-center gap-2">
+							<Settings className="mr-2 size-4" />
+							Ustawienia
+						</NavLink>
+					</Button>
 					<Button variant="default" className="w-full" onClick={() => setCommandOpen(true)}>
 						<Plus className="mr-2 size-4" />
 						Szybka akcja

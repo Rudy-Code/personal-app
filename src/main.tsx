@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './index.css'
 
 import FinancePage from './features/finance/pages/FinancePage'
@@ -11,6 +11,8 @@ import { RunnerDashboard } from '@features/workouts/live-tracking/runner/compone
 import { MainLayout } from './layouts/MainLayout'
 import { Dashboard } from './features/dashboard/pages/Dashboard'
 import { JournalPage } from './features/lifestyle/pages/JournalPage'
+import SettingsLayout from './layouts/SettingsLayout'
+import { FinanceSettings } from './features/settings/pages/FinanceSettings'
 
 const router = createBrowserRouter([
 	{
@@ -25,6 +27,18 @@ const router = createBrowserRouter([
 			{ path: 'lifestyle/journal', element: <JournalPage /> },
 
 			{ path: 'finance/overview', element: <FinancePage /> },
+			{
+				path: 'settings',
+				element: <SettingsLayout />, // Zmieniamy nazwę na Layout (to ten komponent z wąskim, pionowym menu)
+				children: [
+					// Przekierowanie: klikasz /settings -> lecisz od razu do /settings/general
+					{ index: true, element: <Navigate to="finance" replace /> },
+					// { path: 'general', element: <GeneralSettings /> },
+					{ path: 'finance', element: <FinanceSettings /> },
+					// { path: 'business', element: <BusinessSettings /> },
+					// { path: 'lifestyle', element: <LifestyleSettings /> },
+				],
+			},
 
 			//             Grupa Biznes
 			//             { path: 'business/sales', element: <SalesPage /> },

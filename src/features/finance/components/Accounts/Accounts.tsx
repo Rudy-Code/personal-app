@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import { type IconName } from 'lucide-react/dynamic'
 import { DynamicIcon } from 'lucide-react/dynamic'
-import { useAccounts } from '../hook/useAccounts'
+import { useAccounts } from '../../hook/useAccounts'
 
 export const Accounts = () => {
 	const accounts = useAccounts()
@@ -30,12 +30,12 @@ export const Accounts = () => {
 						className="group -mx-2 flex cursor-pointer flex-col justify-between rounded-xl p-2 transition-colors hover:bg-black/5 sm:flex-row sm:items-center"
 					>
 						<div className="flex items-center gap-3">
-							<div className={cn(`flex size-10 items-center justify-center rounded-full bg-black/5`, acc.color)}>
-								<DynamicIcon name={acc.icon.toLowerCase() as IconName} />
+							<div className={cn(`flex size-10 items-center justify-center rounded-full text-secondary-foreground`, acc.color)}>
+								<DynamicIcon name={acc.icon as IconName} />
 							</div>
 							<div>
 								<h3 className="text-secondary font-semibold transition-colors">{acc.name}</h3>
-								<p className="text-secondary/60 text-xs font-medium">{acc.bankName}</p>
+								<p className="text-secondary/60 text-xs font-medium">{acc.description}</p>
 							</div>
 						</div>
 						<div className="text-right">

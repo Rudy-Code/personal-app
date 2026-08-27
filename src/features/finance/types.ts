@@ -1,3 +1,5 @@
+import type { IconName } from 'lucide-react/dynamic'
+
 export type TransactionType = 'income' | 'expense' | 'transfer'
 
 export interface Category {
@@ -11,10 +13,11 @@ export interface Category {
 export interface Account {
 	id: string
 	name: string
-	bankName: string
 	balance: number
-	icon: string
+	icon: IconName
 	color: string
+	description?: string
+	isArchived?: boolean
 }
 
 export interface Transaction {
@@ -38,7 +41,10 @@ export interface FinanceState {
 	}
 
 	// Akcje
-	addAccount: (a: Omit<Account, 'id'>) => void
+	addAccount: (newAccount: Omit<Account, 'id'>) => void
+	updateAccount: (id: string, updatedFields: Partial<Account>) => void
+	archiveAccount: (id: string) => void
+	deleteAccount: (id: string) => void
 	addTransaction: (t: Omit<Transaction, 'id'>) => void
 	updateTransaction: (id: string, updatedFields: Partial<Transaction>) => void
 	deleteTransaction: (id: string) => void

@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/Card'
 import { FinanceOverviewChart } from '../components/chart/FinanceOverviewChart'
 import { FinanceExpensesChart } from '../components/FinanceExpensesChart'
-import { Accounts } from '../components/Accounts'
+import { Accounts } from '../components/Accounts/Accounts'
 import { FinanceOverviewInfo } from '../components/FinanceOverviewInfo'
 import TransactionsPanel from '../components/payments/TransactionTable'
 import { useState } from 'react'

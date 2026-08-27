@@ -6,6 +6,7 @@ import { SideBar } from '@/components/common/SideBar'
 import { CommandPalette } from '@/components/common/CommandPalette'
 import { ModalManager } from '@/components/common/ModalMenager'
 import { Toaster } from '@/components/ui/toast'
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 export const MainLayout = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -15,7 +16,7 @@ export const MainLayout = () => {
 			<ModalManager />
 			<CommandPalette />
 			<Toaster />
-			
+			<TooltipProvider></TooltipProvider>
 			<SideBar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
 
 			<main className="bg-foreground/95 flex min-w-0 flex-1 flex-col overflow-y-auto">
@@ -23,6 +24,7 @@ export const MainLayout = () => {
 					<button onClick={() => setIsMobileMenuOpen(true)} className="hover:bg-accent rounded-md p-2">
 						<Menu className="size-6" />
 					</button>
+					
 					<span className="ml-4 font-bold">RudyCore</span>
 				</div>
 
