@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import { Header } from '@/components/common/Header'
 import { SideBar } from '@/components/common/SideBar'
 import { CommandPalette } from '@/components/common/CommandPalette'
-import { ModalManager } from '@/components/common/ModalMenager'
 import { Toaster } from '@/components/ui/toast'
+
+const ModalManager = lazy(() =>
+	import('@/components/common/ModalMenager').then((m) => ({ default: m.ModalManager })),
+)
 
 export const MainLayout = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
 	return (
 		<div className="bg-background text-foreground flex h-screen w-full overflow-hidden font-sans">
-			<ModalManager />
+			<Suspense fallback={null}>
+				<ModalManager />
+			</Suspense>
 			<CommandPalette />
 			<Toaster />
 			<SideBar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

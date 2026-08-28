@@ -1,18 +1,7 @@
 import { eachMonthOfInterval, endOfMonth, format, startOfMonth, subMonths } from 'date-fns'
 import { pl } from 'date-fns/locale'
 
-export type TransactionType = 'income' | 'expense'
-
-export interface Transaction {
-	id: string
-	type: TransactionType
-	/** Kwota w ZŁOTYCH (może być float, np. 4000 albo 4000.50). */
-	amount: number
-	description: string
-	accountId: string
-	categoryId: string
-	date: string // ISO string
-}
+import type { Transaction } from '../../types'
 
 export interface DateRange {
 	from: Date

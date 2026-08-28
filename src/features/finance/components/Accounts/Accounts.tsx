@@ -2,9 +2,8 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/Card'
 import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
-import { type IconName } from 'lucide-react/dynamic'
-import { DynamicIcon } from 'lucide-react/dynamic'
 import { useAccounts } from '../../hook/useAccounts'
+import { getAccountIcon } from '../../constants'
 import { formatCurrencyWithoutCurrency } from '@/utils/formatters'
 import { useModalStore } from '@/stores/useModalStore'
 
@@ -45,7 +44,10 @@ export const Accounts = () => {
 										acc.color
 									)}
 								>
-									<DynamicIcon name={acc.icon as IconName} />
+									{(() => {
+										const Icon = getAccountIcon(acc.icon)
+										return <Icon />
+									})()}
 								</div>
 								<div>
 									<h3 className="text-secondary font-semibold transition-colors">{acc.name}</h3>

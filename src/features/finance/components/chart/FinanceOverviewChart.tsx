@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { CalendarRange, TrendingDown, TrendingUp } from 'lucide-react'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
+import type { DateRange as DayPickerDateRange } from 'react-day-picker'
 
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/button'
@@ -68,7 +69,7 @@ export function FinanceOverviewChart() {
 
 	const [preset, setPreset] = useState<RangePreset>('year')
 	const [range, setRange] = useState<DateRange>(() => getPresetRange('year'))
-	const [customDraft, setCustomDraft] = useState<{ from?: Date; to?: Date }>({})
+	const [customDraft, setCustomDraft] = useState<DayPickerDateRange | undefined>(undefined)
 
 	useEffect(() => {
 		if (isMobile && preset === 'year') {
@@ -81,14 +82,14 @@ export function FinanceOverviewChart() {
 	function handlePresetChange(value: RangePreset) {
 		setPreset(value)
 		if (value === 'custom') {
-			setCustomDraft({})
+			setCustomDraft(undefined)
 			return
 		}
 		setRange(getPresetRange(value))
 	}
 
-	function handleCustomRangeSelect(selected: { from?: Date; to?: Date } | undefined) {
-		setCustomDraft(selected ?? {})
+	function handleCustomRangeSelect(selected: DayPickerDateRange | undefined) {
+		setCustomDraft(selected)
 		if (!selected?.from || !selected?.to) return
 
 		const requested = { from: selected.from, to: selected.to }

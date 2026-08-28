@@ -9,10 +9,9 @@ import { useAccounts } from '@/features/finance/hook/useAccounts'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/stores/useModalStore'
 import { EditIcon, MoreHorizontal, PlusIcon, TrashIcon } from 'lucide-react'
-import { DynamicIcon, type IconName } from 'lucide-react/dynamic'
 import { formatCurrencyWithoutCurrency } from '@/utils/formatters'
 import { useFinanceStore } from '@/features/finance/stores/useFinanceStore'
-import { TRANSACTION_TYPE_LABELS } from '@/features/finance/constants'
+import { getAccountIcon, TRANSACTION_TYPE_LABELS } from '@/features/finance/constants'
 
 type viewType = 'active' | 'archived'
 type categoryViewType = 'expense' | 'income'
@@ -92,7 +91,10 @@ export const FinanceSettings = () => {
 												acc.color
 											)}
 										>
-											<DynamicIcon name={acc.icon as IconName} />
+																	{(() => {
+																		const Icon = getAccountIcon(acc.icon)
+																		return <Icon />
+																	})()}
 										</div>
 										<div>
 											<h3 className="text-secondary font-semibold transition-colors">{acc.name}</h3>

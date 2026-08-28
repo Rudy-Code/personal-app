@@ -4,12 +4,11 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
 import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form'
-import { DynamicIcon, type IconName } from 'lucide-react/dynamic'
 import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 
 import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ACCOUNT_ICONS, COLORS } from '../../constants'
+import { ACCOUNT_ICONS, COLORS, getAccountIcon } from '../../constants'
 
 interface AccountPersonalizationFormFieldProps<TFieldValues extends FieldValues> {
 	control: Control<TFieldValues>
@@ -57,8 +56,11 @@ export function AccountPersonalizationFormField<TFieldValues extends FieldValues
 														: 'border-muted-foreground/40 bg-muted text-muted-foreground border border-dashed'
 												)}
 											>
-												{iconField.value ? (
-													<DynamicIcon name={iconField.value as IconName} className="size-5" />
+														{iconField.value ? (
+															(() => {
+																const Icon = getAccountIcon(iconField.value as string)
+																return <Icon className="size-5" />
+															})()
 												) : (
 													<span className="text-xs font-semibold">?</span>
 												)}

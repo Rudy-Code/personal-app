@@ -42,6 +42,11 @@ export const ACCOUNT_ICONS: { id: string; icon: LucideIcon }[] = [
 	{ id: 'gift', icon: Gift },
 	{ id: 'hand-coins', icon: HandCoins },
 ]
+
+export function getAccountIcon(id: string): LucideIcon {
+	return ACCOUNT_ICONS.find(accountIcon => accountIcon.id === id)?.icon ?? Landmark
+}
+
 export const COLORS: { name: string; bg: string; text: string }[] = [
 	{ name: 'emerald', bg: 'bg-emerald-600', text: 'text-emerald-600' },
 	{ name: 'blue', bg: 'bg-blue-600', text: 'text-blue-600' },

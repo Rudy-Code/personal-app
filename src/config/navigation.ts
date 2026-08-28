@@ -1,4 +1,4 @@
-import { Wrench, type LucideIcon } from 'lucide-react'
+import { ActivityIcon, SportShoeIcon, Wrench, type LucideIcon } from 'lucide-react'
 import {
 	House,
 	Dumbbell,
@@ -94,6 +94,18 @@ export const SIDEBAR_NAVIGATION: NavigationItem[] = [
 				icon: UsersRound,
 				path: '/business/customers',
 				pageTitle: 'Baza Klientów (CRM)',
+			},
+		],
+	},
+	{
+		title: 'Trasa Live',
+		icon: SportShoeIcon,
+		items: [
+			{
+				label: 'Zobacz bieg',
+				icon: ActivityIcon,
+				path: '/spectator',
+				pageTitle: 'Live',
 			},
 		],
 	},

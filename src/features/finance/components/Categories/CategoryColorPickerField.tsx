@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Controller, type Control } from 'react-hook-form'
+import { Controller, type Control, type FieldValues, type Path } from 'react-hook-form'
 import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -9,12 +9,16 @@ import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { COLORS } from '../../constants'
 
-export function CategoryColorPickerField({ control }: { control: Control<any> }) {
+export function CategoryColorPickerField<TFieldValues extends FieldValues & { color: string }>({
+	control,
+}: {
+	control: Control<TFieldValues>
+}) {
 	const [open, setOpen] = React.useState(false)
 
 	return (
 		<Controller
-			name="color"
+			name={'color' as Path<TFieldValues>}
 			control={control}
 			render={({ field, fieldState }) => {
 				const selectedColor = COLORS.find(c => c.bg === field.value)
