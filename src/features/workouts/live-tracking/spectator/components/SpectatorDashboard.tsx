@@ -9,10 +9,10 @@ import { TimeStatsCard } from './TimeStatsCard'
 import { HeartRateCard } from './HeartRateCard'
 import { MoodInfo } from './MoodInfo'
 
-// Nasze nowe narzędzia
 import { useSpectatorStore } from '../stores/useSpectatorStore'
 import { useSpectatorSocket } from '../hooks/useSpectatorSocket'
 import { CheckCircleIcon, MapPinIcon } from '@phosphor-icons/react'
+import { StartInfoComponent } from './StartInfoComponent'
 
 type Waypoint = {
 	id: number
@@ -64,7 +64,7 @@ export function SpectatorDashboard() {
 			<div className="relative z-0 h-100 w-full overflow-hidden md:h-240 md:rounded-xl">
 				<MapRenderer currentPosition={currentPosition} routeGeoJson={routeGeoJson} />
 
-				<div className="pointer-events-none absolute top-0 right-0 left-0 z-[400] flex justify-between bg-linear-to-b from-black/80 to-transparent p-4">
+				<div className="pointer-events-none absolute top-0 right-0 left-0 z-400 flex justify-between bg-linear-to-b from-black/80 to-transparent p-4">
 					<span className="text-sm font-black tracking-widest text-white uppercase">{EVENT_NAME}</span>
 					<div className="flex items-center gap-1.5 rounded-full border border-neutral-800 bg-black/60 px-2.5 py-1 backdrop-blur-md">
 						{/* Kropka zmienia kolor jak tracisz zasięg */}
@@ -75,6 +75,9 @@ export function SpectatorDashboard() {
 					</div>
 				</div>
 			</div>
+
+			{/* do startu */}
+			<StartInfoComponent />
 
 			{/* SEKCJA STATYSTYK Z ŻYWYMI DANYMI */}
 			<div className="stats py-6">
@@ -96,7 +99,7 @@ export function SpectatorDashboard() {
 						<MapPinIcon weight="fill" className="text-gps" /> Punkty na trasie:
 					</h2>
 					<div className="relative mt-3 flex flex-col gap-3">
-						<div className="absolute top-4 bottom-4 left-[15px] z-0 w-0.5 bg-neutral-800"></div>
+						<div className="absolute top-4 bottom-4 left-3.75 z-0 w-0.5 bg-neutral-800"></div>
 
 						{waypoints.map(wpt => {
 							const isActive = pitstops.active === wpt.name
