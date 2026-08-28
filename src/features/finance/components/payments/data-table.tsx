@@ -103,7 +103,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 					<Input
 						placeholder="Szukaj transakcji..."
 						value={(table.getColumn('description')?.getFilterValue() as string) ?? ''}
-						onChange={event => table.getColumn('description')?.setFilterValue(event.target.value)}
+						onChange={e => table.getColumn('description')?.setFilterValue(e.target.value)}
 						className="bg-background/40 border-zinc-600 pl-9 shadow-none focus:border-zinc-300! focus:ring-0!"
 					/>
 				</div>
@@ -111,7 +111,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 					<select
 						aria-label="Filtruj po kategorii"
 						value={category}
-						onChange={event => setCategory(event.target.value)}
+						onChange={e => setCategory(e.target.value)}
 						className="bg-app-bg text-foreground h-9 rounded-md border border-zinc-600 px-2.5 text-sm outline-none focus:border-zinc-300! focus:ring-0!"
 					>
 						<option value="all">Wszystkie kategorie</option>
@@ -127,7 +127,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 							type="date"
 							aria-label="Data od"
 							value={dateFrom}
-							onChange={event => setDateFrom(event.target.value)}
+							onChange={e => setDateFrom(e.target.value)}
 							className="bg-background/40 w-36 border-zinc-600 shadow-none"
 						/>
 					</label>
@@ -137,7 +137,7 @@ export function DataTable<TData extends RowData>({ columns, data }: DataTablePro
 							type="date"
 							aria-label="Data do"
 							value={dateTo}
-							onChange={event => setDateTo(event.target.value)}
+							onChange={e => setDateTo(e.target.value)}
 							className="bg-background/40 w-36 border-zinc-600 shadow-none"
 						/>
 					</label>

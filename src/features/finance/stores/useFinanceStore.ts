@@ -6,32 +6,7 @@ import type { FinanceState } from '../types'
 export const useFinanceStore = create<FinanceState>()(
 	persist(
 		set => ({
-			accounts: [
-				{
-					id: '1',
-					name: 'Konto Główne',
-					bankName: 'mBank',
-					balance: 0,
-					icon: 'Landmark',
-					color: 'text-emerald-600',
-				},
-				{
-					id: '2',
-					name: 'Konto Firmowe',
-					bankName: 'mBank',
-					balance: 0,
-					icon: 'Briefcase',
-					color: 'text-blue-600',
-				},
-				{
-					id: '3',
-					name: 'Gotówka',
-					bankName: 'Portfel',
-					balance: 10,
-					icon: 'Wallet',
-					color: 'text-amber-600',
-				},
-			],
+			accounts: [],
 			categories: [
 				{ id: 'c1', name: 'Wynagrodzenie', type: 'income', color: 'bg-emerald-500' },
 				{ id: 'c2', name: 'Jedzenie', type: 'expense', color: 'bg-amber-400' },
@@ -43,12 +18,31 @@ export const useFinanceStore = create<FinanceState>()(
 				monthlyIncomeGoal: 3500,
 			},
 
-			// --- AKCJE ---
+			// ------ AKCJE ------
+
+			// --- KONTA ---
 			addAccount: newAccount =>
 				set(state => ({
 					accounts: [...state.accounts, { ...newAccount, id: uuidv4() }],
 				})),
 
+			updateAccount: (id, updatedFields) =>
+				set(state => ({
+					accounts: state.accounts.map(acc => (acc.id === id ? { ...acc, ...updatedFields } : acc)),
+				})),
+
+			archiveAccount: (id: string) =>
+				set(state => ({
+					accounts: state.accounts.map(a => (a.id === id ? { ...a, isArchived: true } : a)),
+				})),
+
+			deleteAccount: id =>
+				set(state => ({
+					accounts: state.accounts.filter(acc => acc.id !== id),
+					transactions: state.transactions.filter(t => t.accountId !== id && t.toAccountId !== id),
+				})),
+
+			// --- TRANSAKCJE ---
 			addTransaction: newTransaction =>
 				set(state => ({
 					transactions: [...state.transactions, { ...newTransaction, id: uuidv4() }],
@@ -62,6 +56,31 @@ export const useFinanceStore = create<FinanceState>()(
 			deleteTransaction: id =>
 				set(state => ({
 					transactions: state.transactions.filter(t => t.id !== id),
+				})),
+
+			// --- KATEGORIE ---
+			addCategory: newCategory =>
+				set(state => ({
+					categories: [...state.categories, { ...newCategory, id: uuidv4() }],
+				})),
+			updateCategory: (id, updatedFields) =>
+				set(state => ({
+					categories: state.categories.map(category =>
+						category.id === id ? { ...category, ...updatedFields } : category
+					),
+				})),
+			deleteCategory: id =>
+				set(state => ({
+					categories: state.categories.filter(t => t.id !== id),
+				})),
+
+			// --- USTAWIENIA ---
+			updateSetting: (key, value) =>
+				set(state => ({
+					settings: {
+						...state.settings,
+						[key]: value, 
+					},
 				})),
 		}),
 		{

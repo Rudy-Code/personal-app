@@ -1,16 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './index.css'
 
-import FinancePage from './features/finance/pages/FinancePage'
-import WorkoutsPage from './features/lifestyle/pages/WorkoutsPage'
-
-import { SpectatorDashboard } from '@features/workouts/live-tracking/spectator/components/SpectatorDashboard'
-import { RunnerDashboard } from '@features/workouts/live-tracking/runner/components/RunnerDashboard'
 import { MainLayout } from './layouts/MainLayout'
-import { Dashboard } from './features/dashboard/pages/Dashboard'
-import { JournalPage } from './features/lifestyle/pages/JournalPage'
 
 const router = createBrowserRouter([
 	{
@@ -19,25 +12,53 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Dashboard />,
+				lazy: () =>
+					import('./features/dashboard/pages/Dashboard').then((m) => ({ Component: m.Dashboard })),
 			},
-			{ path: 'lifestyle/workouts', element: <WorkoutsPage /> },
-			{ path: 'lifestyle/journal', element: <JournalPage /> },
-
-			{ path: 'finance/overview', element: <FinancePage /> },
-
-			//             Grupa Biznes
-			//             { path: 'business/sales', element: <SalesPage /> },
-			//             { path: 'business/crm', element: <CrmPage /> },
+			{
+				path: 'lifestyle/workouts',
+				lazy: () =>
+					import('./features/lifestyle/pages/WorkoutsPage').then((m) => ({ Component: m.default })),
+			},
+			{
+				path: 'lifestyle/journal',
+				lazy: () =>
+					import('./features/lifestyle/pages/JournalPage').then((m) => ({ Component: m.JournalPage })),
+			},
+			{
+				path: 'finance/overview',
+				lazy: () =>
+					import('./features/finance/pages/FinancePage').then((m) => ({ Component: m.default })),
+			},
+			{
+				path: 'settings',
+				lazy: () => import('./layouts/SettingsLayout').then((m) => ({ Component: m.default })),
+				children: [
+					{ index: true, element: <Navigate to="finance" replace /> },
+					{
+						path: 'finance',
+						lazy: () =>
+							import('./features/settings/pages/FinanceSettings').then((m) => ({
+								Component: m.FinanceSettings,
+							})),
+					},
+				],
+			},
 		],
 	},
 	{
 		path: '/live',
-		element: <RunnerDashboard />,
+		lazy: () =>
+			import('@features/workouts/live-tracking/runner/components/RunnerDashboard').then((m) => ({
+				Component: m.RunnerDashboard,
+			})),
 	},
 	{
 		path: '/spectator',
-		element: <SpectatorDashboard />,
+		lazy: () =>
+			import('@features/workouts/live-tracking/spectator/components/SpectatorDashboard').then((m) => ({
+				Component: m.SpectatorDashboard,
+			})),
 	},
 ])
 

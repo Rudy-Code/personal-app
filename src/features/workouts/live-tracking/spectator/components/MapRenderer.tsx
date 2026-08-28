@@ -47,8 +47,8 @@ export function MapRenderer({ currentPosition, routeGeoJson }: MapRendererProps)
 				zoomControl={false}
 			>
 				<TileLayer
-					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-					url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+					attribution='<a href="https://www.jawg.io?utm_medium=map&utm_source=attribution" target="_blank">&copy; Jawg</a> - <a href="https://www.openstreetmap.org?utm_medium=map-attribution&utm_source=jawg" target="_blank">&copy; OpenStreetMap</a>'
+					url="https://tile.jawg.io/jawg-terrain/{z}/{x}/{y}.png?access-token=KxmqMU2TO1YZc0v6M7ESxWiZMewbzauhV8WoSTo2kVtwtKM16gpTAxq4AstbAVkq"
 				/>
 
 				{/* route and points (WPT) */}

@@ -59,9 +59,18 @@ export const CommandPalette = () => {
 						<Plus className="mr-2 size-4" />
 						<span>Zaloguj trening</span>
 					</CommandItem>
-					<CommandItem onSelect={() => runCommand(() => console.log('Otwórz modal ustawień aplikacji'))}>
+				</CommandGroup>
+
+				<CommandSeparator />
+
+				<CommandGroup heading="Ustawienia">
+					<CommandItem onSelect={() => runCommand(() => navigate('/settings'))}>
 						<Settings className="mr-2 size-4" />
 						<span>Ustawienia aplikacji</span>
+					</CommandItem>
+					<CommandItem onSelect={() => runCommand(() => navigate('/settings/finance'))}>
+						<Plus className="mr-2 size-4" />
+						<span>Ustawienia Finanse</span>
 					</CommandItem>
 				</CommandGroup>
 

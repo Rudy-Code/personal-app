@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { type DataTableFeatures } from './data-table-features'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import {
@@ -135,8 +135,12 @@ export const columns = columnHelper.columns([
 						<DropdownMenuGroup>
 							<DropdownMenuLabel>Akcje</DropdownMenuLabel>
 
-							<DropdownMenuItem onClick={() => handleEditTransaction(transaction.id)}>Edytuj</DropdownMenuItem>
-							<DropdownMenuItem className="text-rose-500" onClick={() => handleDeleteTransaction(transaction.id)}>
+							<DropdownMenuItem onClick={() => handleEditTransaction(transaction.id)}>
+								<Edit size={14} />
+								Edytuj
+							</DropdownMenuItem>
+							<DropdownMenuItem variant="destructive" onClick={() => handleDeleteTransaction(transaction.id)}>
+								<Trash size={14} />
 								Usuń
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
