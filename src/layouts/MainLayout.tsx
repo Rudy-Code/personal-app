@@ -27,7 +27,6 @@ export const MainLayout = () => {
 					<button onClick={() => setIsMobileMenuOpen(true)} className="hover:bg-accent rounded-md p-2">
 						<Menu className="size-6" />
 					</button>
-
 					<span className="ml-4 font-bold">RudyCore</span>
 				</div>
 

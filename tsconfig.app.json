@@ -24,6 +24,7 @@
 
 		"paths": {
 			"@/*": ["./src/*"],
+			"@/*": ["./src/*"],
 			"@features/*": ["./src/features/*"],
 			"@pages/*": ["./src/features/dashboard/pages/*"],
 			"@components/*": ["./src/components/*"],
