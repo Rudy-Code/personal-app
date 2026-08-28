@@ -59,3 +59,8 @@ export const COLORS: { name: string; bg: string; text: string }[] = [
 	{ name: 'lime', bg: 'bg-lime-600', text: 'text-lime-600' },
 	{ name: 'indigo', bg: 'bg-indigo-600', text: 'text-indigo-600' },
 ]
+
+export const LIMITS_SETTINGS_LABEL = {
+	monthlyExpenseLimit: 'Limit wydatków',
+	monthlyIncomeGoal: 'Cel zarobkowy',
+}

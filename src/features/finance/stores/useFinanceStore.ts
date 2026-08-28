@@ -73,6 +73,15 @@ export const useFinanceStore = create<FinanceState>()(
 				set(state => ({
 					categories: state.categories.filter(t => t.id !== id),
 				})),
+
+			// --- USTAWIENIA ---
+			updateSetting: (key, value) =>
+				set(state => ({
+					settings: {
+						...state.settings,
+						[key]: value, 
+					},
+				})),
 		}),
 		{
 			name: 'finance-storage',

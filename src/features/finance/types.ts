@@ -53,4 +53,6 @@ export interface FinanceState {
 	addCategory: (newCategory: Omit<Category, 'id'>) => void
 	updateCategory: (id: string, updatedFields: Partial<Category>) => void
 	deleteCategory: (id: string) => void
+
+	updateSetting: (key: keyof FinanceState['settings'], value: number) => void
 }
