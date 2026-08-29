@@ -9,11 +9,11 @@ export interface DateRange {
 }
 
 export interface MonthlyBucket {
-	key: string // "2026-08" - stabilny klucz do React key / debugowania
-	month: string // "Sierpień" - pełna nazwa (desktop, tooltip)
-	monthShort: string // "Sie" - skrót (mobile, ciasne osie)
-	income: number // w złotych
-	expenses: number // w złotych
+	key: string
+	month: string
+	monthShort: string
+	income: number
+	expenses: number
 }
 
 export type RangePreset = '3m' | '6m' | 'year' | 'custom'
@@ -24,8 +24,6 @@ function capitalize(value: string): string {
 	return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-/** Liczy zakres dat dla presetu. `to` nigdy nie wychodzi poza bieżący miesiąc - nie ma sensu
- * renderować pustych przyszłych miesięcy tylko dlatego, że preset to "cały rok". */
 export function getPresetRange(preset: RangePreset, today: Date = new Date()): DateRange {
 	switch (preset) {
 		case '3m':
@@ -38,8 +36,6 @@ export function getPresetRange(preset: RangePreset, today: Date = new Date()): D
 	}
 }
 
-/** Custom range z Calendara może być dowolnie szeroki (user klika dwa razy i ma 10 lat).
- * Tniemy do maksymalnej liczby miesięcy, zostawiając najnowsze - żeby wykres nie spuchł. */
 export function clampRangeToLimit(range: DateRange, maxMonths: number = MAX_RANGE_MONTHS): DateRange {
 	const monthsApart =
 		(range.to.getFullYear() - range.from.getFullYear()) * 12 + (range.to.getMonth() - range.from.getMonth()) + 1
@@ -56,8 +52,6 @@ export function aggregateTransactionsByMonth(transactions: Transaction[], range:
 		end: endOfMonth(range.to),
 	})
 
-	// Prealokujemy wszystkie miesiące w zakresie (nawet te bez transakcji) - inaczej dziury
-	// w danych zniekształcają oś X wykresu (miesiąc bez transakcji po prostu znika z wykresu).
 	const buckets = new Map<string, { date: Date; income: number; expenses: number }>(
 		months.map(date => [format(date, 'yyyy-MM'), { date, income: 0, expenses: 0 }])
 	)
@@ -66,7 +60,7 @@ export function aggregateTransactionsByMonth(transactions: Transaction[], range:
 		const date = new Date(transaction.date)
 		const key = format(date, 'yyyy-MM')
 		const bucket = buckets.get(key)
-		if (!bucket) continue // transakcja poza wybranym zakresem dat
+		if (!bucket) continue
 
 		if (transaction.type === 'income') {
 			bucket.income += transaction.amount

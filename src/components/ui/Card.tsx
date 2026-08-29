@@ -7,7 +7,7 @@ const cardVariants = cva('flex flex-col rounded-xl border p-5 transition-colors'
 		variant: {
 			default: 'bg-card border-border',
 			secondary: 'bg-primary-foreground border-app-elevated/20 text-secondary',
-			journal: 'bg-yellow-500/10 border-yellow-500/20',
+			journal: 'bg-yellow-200/10 border-yellow-500/40',
 			danger: 'bg-destructive/10 border-destructive/20 text-destructive',
 		},
 		isInteractive: {
