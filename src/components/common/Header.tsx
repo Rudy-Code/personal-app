@@ -4,11 +4,13 @@ import { useUIStore } from '@stores/useUIStore'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { useLocation } from 'react-router-dom'
 import { SIDEBAR_NAVIGATION } from '@/config/navigation'
-
+import { exportFullBackup, importFullBackup } from '@/lib/backup'
+import { useRef } from 'react'
 export const Header = () => {
 	const setCommandOpen = useUIStore(state => state.setCommandOpen)
 
 	const location = useLocation()
+	const fileInputRef = useRef<HTMLInputElement>(null)
 
 	const getCurrentPageTitle = () => {
 		for (const group of SIDEBAR_NAVIGATION) {
@@ -27,6 +29,22 @@ export const Header = () => {
 		dateStyle: 'full',
 	}).format(new Date())
 
+	const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0]
+		if (!file) return
+
+		if (window.confirm('Uwaga! Import nadpisze CAŁE obecne dane w aplikacji. Kontynuować?')) {
+			try {
+				await importFullBackup(file)
+			} catch (err) {
+				alert('Coś poszło nie tak. Upewnij się, że to poprawny plik z backupem.')
+				console.error(err)
+			}
+		}
+
+		if (fileInputRef.current) fileInputRef.current.value = ''
+	}
+
 	return (
 		<header className="bg-foreground text-secondary border-border/20 flex items-center justify-between border-b p-4">
 			<div className="">
@@ -40,6 +58,8 @@ export const Header = () => {
 					<Search className="size-5" />
 				</Button>
 
+				<input type="file" accept=".json" ref={fileInputRef} onChange={handleImport} className="hidden" />
+
 				<DropdownMenu>
 					<DropdownMenuTrigger
 						render={
@@ -48,13 +68,14 @@ export const Header = () => {
 								Dane
 							</Button>
 						}
-					></DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem className="cursor-pointer gap-2">
+					/>
+					<DropdownMenuContent align="end" className="w-full">
+						<DropdownMenuItem className="cursor-pointer gap-2" onClick={exportFullBackup}>
 							<Download className="size-4" />
 							Eksportuj (JSON)
 						</DropdownMenuItem>
-						<DropdownMenuItem className="cursor-pointer gap-2">
+
+						<DropdownMenuItem className="cursor-pointer gap-2" onClick={() => fileInputRef.current?.click()}>
 							<Upload className="size-4" />
 							Importuj kopię
 						</DropdownMenuItem>

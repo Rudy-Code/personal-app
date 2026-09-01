@@ -23,17 +23,24 @@ const router = createBrowserRouter([
 				lazy: () => import('./features/lifestyle/pages/JournalPage').then(m => ({ Component: m.JournalPage })),
 			},
 			{
-				path: 'lifestyle/journal/:id',
+				path: 'lifestyle/journal/edit/:id',
 				lazy: () =>
 					import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
 						Component: m.JournalEntryDetails,
 					})),
 			},
 			{
+				path: 'lifestyle/journal/:id',
+				lazy: () =>
+					import('./features/lifestyle/pages/JournalDetails').then(m => ({
+						Component: m.JournalDetails,
+					})),
+			},
+			{
 				path: 'lifestyle/journal/new',
 				lazy: () =>
-					import('./features/lifestyle/pages/JournalNewEntry').then(m => ({
-						Component: m.JournalNewEntry,
+					import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
+						Component: m.JournalEntryDetails,
 					})),
 			},
 			{
@@ -50,6 +57,13 @@ const router = createBrowserRouter([
 						lazy: () =>
 							import('./features/settings/pages/FinanceSettings').then(m => ({
 								Component: m.FinanceSettings,
+							})),
+					},
+					{
+						path: 'lifestyle',
+						lazy: () =>
+							import('./features/settings/pages/LifestyleSettings').then(m => ({
+								Component: m.LifestyleSettings,
 							})),
 					},
 				],

@@ -1,6 +1,7 @@
 import { AccountsModal } from '@/features/finance/components/Accounts/AccountsModal'
 import { CategoriesModal } from '@/features/finance/components/Categories/CategoriesModal'
 import { TransactionModal } from '@/features/finance/components/payments/TransactionModal'
+import { JournalModal } from '@/features/lifestyle/components/journal/JournalCategoriesModal'
 import { useModalStore } from '@/stores/useModalStore'
 
 export const ModalManager = () => {
@@ -13,6 +14,7 @@ export const ModalManager = () => {
 			{activeModal === 'transaction' && <TransactionModal />}
 			{activeModal === 'account' && <AccountsModal type={modalActionType} id={entityId} />}
 			{activeModal === 'category' && <CategoriesModal type={modalActionType} id={entityId} />}
+			{activeModal === 'journal-categories' && <JournalModal type={modalActionType} id={entityId} />}
 			{/* {activeModal === 'settings' && <SettingsModal />}  */}
 		</>
 	)

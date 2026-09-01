@@ -47,18 +47,6 @@ export function getAccountIcon(id: string): LucideIcon {
 	return ACCOUNT_ICONS.find(accountIcon => accountIcon.id === id)?.icon ?? Landmark
 }
 
-export const COLORS: { name: string; bg: string; text: string }[] = [
-	{ name: 'emerald', bg: 'bg-emerald-600', text: 'text-emerald-600' },
-	{ name: 'blue', bg: 'bg-blue-600', text: 'text-blue-600' },
-	{ name: 'amber', bg: 'bg-amber-600', text: 'text-amber-600' },
-	{ name: 'rose', bg: 'bg-rose-600', text: 'text-rose-600' },
-	{ name: 'violet', bg: 'bg-violet-600', text: 'text-violet-600' },
-	{ name: 'cyan', bg: 'bg-cyan-600', text: 'text-cyan-600' },
-	{ name: 'orange', bg: 'bg-orange-600', text: 'text-orange-600' },
-	{ name: 'pink', bg: 'bg-pink-600', text: 'text-pink-600' },
-	{ name: 'lime', bg: 'bg-lime-600', text: 'text-lime-600' },
-	{ name: 'indigo', bg: 'bg-indigo-600', text: 'text-indigo-600' },
-]
 
 export const LIMITS_SETTINGS_LABEL = {
 	monthlyExpenseLimit: 'Limit wydatków',

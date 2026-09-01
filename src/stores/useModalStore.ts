@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type ModalType = 'transaction' | 'account' | 'category' | 'settings' | null
+export type ModalType = 'transaction' | 'account' | 'category' | 'settings' | 'journal-categories' | null
 export type ModalActionType = 'add' | 'edit' | 'delete' | null | undefined
 
 interface ModalState {
