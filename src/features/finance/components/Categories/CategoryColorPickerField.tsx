@@ -7,7 +7,8 @@ import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { COLORS } from '../../constants'
+import { COLORS } from '@/constants/colors'
+
 
 export function CategoryColorPickerField<TFieldValues extends FieldValues & { color: string }>({
 	control,

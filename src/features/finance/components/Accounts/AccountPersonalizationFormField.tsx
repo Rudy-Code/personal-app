@@ -8,7 +8,8 @@ import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 
 import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ACCOUNT_ICONS, COLORS, getAccountIcon } from '../../constants'
+import { ACCOUNT_ICONS, getAccountIcon } from '../../constants'
+import { COLORS } from '@/constants/colors'
 
 interface AccountPersonalizationFormFieldProps<TFieldValues extends FieldValues> {
 	control: Control<TFieldValues>

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { v4 as uuidv4 } from 'uuid'
 import type { FinanceState } from '../types'
 
@@ -79,12 +79,13 @@ export const useFinanceStore = create<FinanceState>()(
 				set(state => ({
 					settings: {
 						...state.settings,
-						[key]: value, 
+						[key]: value,
 					},
 				})),
 		}),
 		{
 			name: 'finance-storage',
+			storage: createJSONStorage(() => localStorage),
 		}
 	)
 )

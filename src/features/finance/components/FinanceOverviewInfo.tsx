@@ -11,17 +11,16 @@ interface FinanceOverviewInfoProps {
 
 const getExpenseLimitUI = (percent: number) => {
 	const formattedPercent = Math.round(percent)
-
 	if (percent >= 100) {
 		return {
-			status: 'Przekroczono limit',
-			color: 'text-rose-500',
+			expenseStatus: 'Przekroczono limit',
+			expenseColor: 'text-rose-500',
 		}
 	}
 	if (percent >= 80) {
 		return {
-			status: `${formattedPercent}% limitu miesięcznego`,
-			color: 'text-amber-500',
+			expenseStatus: `${formattedPercent}% limitu miesięcznego`,
+			expenseColor: 'text-amber-500',
 		}
 	}
 	return {
