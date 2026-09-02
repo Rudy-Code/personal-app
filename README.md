@@ -33,19 +33,27 @@ Co działa na ten moment:
   - Statystyki wydatków i przychodów miesięcznych
   - Wykresy i podsumowania
   - Dodawanie i usuwanie nowych transakcji
-  - Filtorwanie transakcji po kategoriach
+  - Filtrowanie transakcji po kategoriach
   - Dodawanie i usuwanie kategorii, kont bankowych i źródeł przychodów
 - **Panel Ustawień:**
   1. Finanse:
      - Dodawanie, usuwanie i archiwizowanie kont
      - Dodawanie, edytowanie i usuwanie kategorii wydatków i przychodów
-     - ustawianie limitów i celów finansowych
-
+     - Ustawianie limitów i celów finansowych
   2. Styl życia:
      - Dodawanie, edytowanie i usuwanie kategorii wpisów do dziennika
-
-- **Command Palette:** Szybkie wyszukiwanie akcjii i nawigacja po aplikacji.
+- **Command Palette:** Szybkie wyszukiwanie akcji i nawigacja po aplikacji.
 - **Eksport i import danych:** Możliwość eksportu i importu danych finansowych i dziennika w formacie JSON.
+
+---
+
+## 🧠 Decyzje projektowe
+
+- **Zustand zamiast Reduxa:** Wybrałem Zustand ze względu na znacznie mniejszy boilerplate, lekkość i prostotę. Aplikacja nie wymaga skomplikowanego, rozbudowanego stanu globalnego, więc takie podejście w zupełności wystarcza i przyspiesza rozwój.
+- **Tailwind CSS + shadcn/ui:** To połączenie niesamowicie przyspieszyło proces stylowania. Zamiast budować podstawowe komponenty od zera, mogłem skupić się na logice biznesowej, zachowując spójny, nowoczesny wygląd i pełną kontrolę nad kodem UI.
+- **Bun:** Zastąpiłem standardowego npm-a Bunem. Oferuje on znacznie szybszą instalację paczek, błyskawiczne uruchamianie skryptów i lepiej zarządza miejscem na dysku.
+
+---
 
 ### 🗺 Roadmap (W trakcie realizacji)
 
@@ -67,7 +75,7 @@ Co działa na ten moment:
    ```
 2. Zainstaluj zależności:
    ```bash
-   cd personal-info-app
+   cd personal-app
    bun install
    ```
 3. Uruchom aplikację:
@@ -75,4 +83,4 @@ Co działa na ten moment:
    bun run dev
    ```
 
-Jeśli nie masz zainstalowanego BUN, możesz go pobrać z oficjalnej strony: [https://bun.sh/](https://bun.com/docs/installation)
+Jeśli nie masz zainstalowanego środowiska Bun, pobierz je z [oficjalnej strony:](https://bun.com/docs/installation)
