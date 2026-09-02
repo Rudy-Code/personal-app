@@ -35,7 +35,7 @@ export const Accounts = () => {
 							</div>
 							<div>
 								<h3 className="text-secondary font-semibold transition-colors">{acc.name}</h3>
-								<p className="text-secondary/60 text-xs font-medium">{acc.bankName}</p>
+								<p className="text-secondary/60 text-xs font-medium">{acc.description}</p>
 							</div>
 						</div>
 						<div className="text-right">

@@ -41,7 +41,6 @@ const toDateRange = (dateRange: unknown, createdAt: unknown) => {
 export const useJournalStore = create<LifestyleState>()(
 	persist(
 		set => ({
-			// TODO: CLEAN UP: Remove hardcoded entries
 			entries: [],
 			journalCategories: [
 				{ id: '1', name: 'Ważne', color: 'red' },

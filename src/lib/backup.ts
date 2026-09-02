@@ -13,7 +13,7 @@ export const exportFullBackup = () => {
 	const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(backup, null, 2))}`
 	const anchor = document.createElement('a')
 	anchor.href = jsonString
-	anchor.download = `moje-dane-backup-${new Date().toISOString().slice(0, 10)}.json`
+	anchor.download = `personal-hub-${new Date().toISOString().slice(0, 10)}.json`
 	document.body.appendChild(anchor)
 	anchor.click()
 	anchor.remove()

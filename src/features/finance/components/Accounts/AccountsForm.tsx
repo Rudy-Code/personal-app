@@ -181,7 +181,7 @@ export function AccountsForm({ className, id }: AccountFormProps) {
 						Reset
 					</Button>
 					<Button type="submit" form="add-account">
-						Submit
+						Dodaj
 					</Button>
 				</Field>
 			</div>

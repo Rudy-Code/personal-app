@@ -13,6 +13,8 @@ import { pl } from 'date-fns/locale'
 import { toast } from '@/components/ui/toast'
 
 export const JournalDetails = () => {
+	const journalCategories = useJournalStore(state => state.journalCategories)
+
 	const navigate = useNavigate()
 	const formatJournalDate = (date: Date) => (isValid(date) ? format(date, 'd LLL yyyy', { locale: pl }) : 'Brak daty')
 	const { id } = useParams()
@@ -92,14 +94,18 @@ export const JournalDetails = () => {
 								<div className="flex flex-wrap gap-2">
 									{currentEntry.tags.length > 0 && (
 										<div className="flex flex-wrap gap-2">
-											{currentEntry.tags.map(tag => (
-												<span
-													key={tag}
-													className="badge text-secondary-foreground bg-sidebar-accent flex items-center rounded-sm border border-indigo-500/30 px-2 py-0.5 transition-colors duration-300"
-												>
-													{tag}
-												</span>
-											))}
+											{currentEntry.tags.map(tagId => {
+												const category = journalCategories.find(c => c.id === tagId)
+
+												return (
+													<span
+														key={tagId}
+														className="badge text-secondary-foreground bg-sidebar-accent flex items-center rounded-sm border border-indigo-500/30 px-2 py-0.5 transition-colors duration-300"
+													>
+														{category?.name ?? tagId}
+													</span>
+												)
+											})}
 										</div>
 									)}
 								</div>

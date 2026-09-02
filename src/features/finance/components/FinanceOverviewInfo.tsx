@@ -136,9 +136,7 @@ export const FinanceOverviewInfo = ({ month, year }: FinanceOverviewInfoProps) =
 								monthlyBalance <= 0 ? 'text-rose-500' : 'text-emerald-500'
 							)}
 						>
-							{monthlyBalance === 0
-								? formatCurrency(monthlyBalance).replace(/^[+-]/, '')
-								: formatCurrency(monthlyBalance)}
+							{monthlyBalance === 0 ? formatCurrency(monthlyBalance) : formatCurrency(monthlyBalance).slice(1)}
 						</h3>
 					</div>
 				</div>

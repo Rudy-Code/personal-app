@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import { cn } from '@/lib/utils'
 import { Calendar, Tag, Timer } from 'lucide-react'
 import { format, isValid } from 'date-fns'
 import { pl } from 'date-fns/locale'
@@ -7,9 +8,15 @@ import { Card } from '@/components/ui/Card'
 import { NavLink } from 'react-router-dom'
 import { useJournalStore as useLifestyleStore } from '../../stores/useLifestyleStore'
 
+import { COLORS } from '@/constants/colors'
+
 export const JournalCard = ({ id, title, content, tags, dateRange, createdAt }: JournalEntry) => {
 	const journalCategories = useLifestyleStore(state => state.journalCategories)
 	const formatJournalDate = (date: Date) => (isValid(date) ? format(date, 'd LLL yyyy', { locale: pl }) : 'Brak daty')
+
+	function getCategoryColorClass(color: string) {
+		return COLORS.find(item => item.name === color)?.bg ?? color
+	}
 
 	return (
 		<Card className="hover:border-app-muted group h-full py-6 transition-colors" isInteractive>
@@ -26,14 +33,14 @@ export const JournalCard = ({ id, title, content, tags, dateRange, createdAt }: 
 						<div className="flex flex-wrap gap-2">
 							{tags.map(categoryId => {
 								const category = journalCategories.find(c => c.id === categoryId)
+
 								return (
 									<span
 										key={categoryId}
-										className="badge flex items-center rounded-sm border px-2 py-0.5 text-white transition-colors duration-300 group-hover:opacity-80"
-										style={{
-											backgroundColor: category?.color || '#888888',
-											borderColor: category?.color || '#888888',
-										}}
+										className={cn(
+											'badge flex items-center rounded-sm border px-2 py-0.5 text-white transition-colors duration-300 group-hover:opacity-80',
+											getCategoryColorClass(category?.color || '')
+										)}
 									>
 										<Tag size={12} className="mr-1 shrink-0" />
 										<span>{category?.name || categoryId}</span>
