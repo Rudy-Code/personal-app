@@ -18,6 +18,7 @@ import {
 
 import { useFinanceStore } from '../../stores/useFinanceStore'
 import type { TransactionType } from '../../types'
+import { useModalStore } from '@/stores/useModalStore'
 import { toast } from '@/components/ui/toast'
 
 export type Transaction = {
@@ -31,8 +32,7 @@ export type Transaction = {
 }
 
 const handleEditTransaction = (transactionId: string) => {
-	// TODO: Implement the logic to open the edit modal
-	console.log('Edit transaction', transactionId)
+	useModalStore.getState().openModal('transaction', 'edit', transactionId)
 }
 
 const handleDeleteTransaction = (transactionId: string) => {

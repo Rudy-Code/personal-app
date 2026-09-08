@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { Wallet, Briefcase, User, Activity } from 'lucide-react'
+import { Wallet, Briefcase, User, Activity, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils' // Upewnij się, że masz ten import
 
 export default function SettingsLayout() {
@@ -66,6 +66,21 @@ export default function SettingsLayout() {
 					>
 						<Activity className="size-4" />
 						<span className="whitespace-nowrap">Styl życia</span>
+					</NavLink>
+
+					<NavLink
+						to="/settings/documents"
+						className={({ isActive }) =>
+							cn(
+								'flex shrink-0 items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition-colors',
+								isActive
+									? 'bg-primary text-primary-foreground shadow-xs'
+									: 'text-muted-foreground hover:bg-muted/80 hover:text-foreground'
+							)
+						}
+					>
+						<FileText className="size-4" />
+						<span className="whitespace-nowrap">Dokumenty</span>
 					</NavLink>
 				</nav>
 			</aside>

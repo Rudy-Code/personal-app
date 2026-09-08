@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -9,15 +9,13 @@ import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
 
 import { ArrowLeft, Save, CalendarIcon } from 'lucide-react'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { useUnsavedChanges } from '@/hooks/useUnsavedChanges'
+import { MarkdownEditor } from '@/components/markdown/MarkdownEditor'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/Card'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { toast } from '@/components/ui/toast'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
@@ -81,6 +79,9 @@ export const JournalEntryDetails = () => {
 		},
 	})
 
+	const [uploading, setUploading] = useState(false)
+	const markSaved = useUnsavedChanges(form.formState.isDirty || uploading)
+
 	useEffect(() => {
 		if (isEditMode && existingEntry) {
 			form.reset({
@@ -100,6 +101,7 @@ export const JournalEntryDetails = () => {
 	}
 
 	function onSubmit(data: FormData) {
+		if (uploading) return
 		const payload = {
 			title: data.title,
 			content: data.content,
@@ -115,6 +117,8 @@ export const JournalEntryDetails = () => {
 			toast.add({ type: 'success', title: 'Pomyślnie zaktualizowano wpis' })
 		} else {
 			addEntry(payload)
+			form.reset(data)
+			markSaved()
 			toast.add({ type: 'success', title: 'Pomyślnie dodano nowy wpis' })
 			navigate('/lifestyle/journal/')
 		}
@@ -131,7 +135,7 @@ export const JournalEntryDetails = () => {
 						<h2 className="text-secondary-foreground text-lg font-bold">{isEditMode ? 'Edytuj wpis' : 'Nowy wpis'}</h2>
 					</div>
 					<div className="mt-2 flex flex-col gap-2 sm:mt-0 sm:flex-row">
-						<Button type="submit" form="journal-form">
+						<Button type="submit" form="journal-form" disabled={uploading}>
 							<Save className="mr-2 h-4 w-4" />
 							{isEditMode ? 'Zapisz zmiany' : 'Dodaj wpis'}
 						</Button>
@@ -257,30 +261,16 @@ export const JournalEntryDetails = () => {
 							name="content"
 							control={form.control}
 							render={({ field, fieldState }) => (
-								<Tabs defaultValue="overview" className="mt-4 w-full space-y-4">
-									<TabsList>
-										<TabsTrigger value="overview">Edycja</TabsTrigger>
-										<TabsTrigger value="analytics">Podgląd</TabsTrigger>
-									</TabsList>
-									<TabsContent value="overview">
-										<Field data-invalid={fieldState.invalid}>
-											<FieldLabel htmlFor="textarea">Treść wpisu (markdown)</FieldLabel>
-											<Textarea
-												{...field}
-												id="textarea"
-												aria-invalid={fieldState.invalid}
-												placeholder="# Przemyślenia dnia"
-												className="min-h-75"
-											/>
-											{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-										</Field>
-									</TabsContent>
-									<TabsContent value="analytics" className="w-full">
-										<div className="prose prose-zinc prose-invert min-h-75 w-full rounded-md border border-zinc-700 p-4">
-											<Markdown remarkPlugins={[remarkGfm]}>{field.value || ''}</Markdown>
-										</div>
-									</TabsContent>
-								</Tabs>
+								<Field data-invalid={fieldState.invalid}>
+									<MarkdownEditor
+										value={field.value}
+										onChange={field.onChange}
+										onBlur={field.onBlur}
+										invalid={fieldState.invalid}
+										onBusyChange={setUploading}
+									/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
 							)}
 						/>
 					</FieldGroup>

@@ -17,6 +17,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useModalStore } from '@/stores/useModalStore'
 import { useFinanceStore } from '../../stores/useFinanceStore'
 import { useAccounts } from '../../hook/useAccounts'
+import type { Transaction } from '../../types'
+import { transactionEffect } from '../../utils/transactionEffect'
+import { toast } from '@/components/ui/toast'
 import { TRANSACTION_TYPE_LABELS } from '../../constants'
 
 const transactionFormSchema = z
@@ -26,6 +29,7 @@ const transactionFormSchema = z
 		}),
 		amount: z.coerce
 			.number({ invalid_type_error: 'Podaj poprawną kwotę.' })
+			.finite('Podaj poprawną kwotę.')
 			.positive('Kwota musi być większa od zera.'),
 		date: z.date({ required_error: 'Wybierz datę.' }),
 		account: z.string().min(1, 'Wybierz konto źródłowe.'),
@@ -55,26 +59,39 @@ type TransactionFormValues = z.infer<typeof transactionFormSchema>
 export function TransactionForm({
 	className,
 	onSuccess,
+	transaction,
 }: {
+	transaction?: Transaction
 	className?: string
 	onSuccess?: (values: TransactionFormValues) => void
 }) {
 	const accounts = useAccounts()
 	const categories = useFinanceStore(state => state.categories)
 	const addTransaction = useFinanceStore(state => state.addTransaction)
+	const updateTransaction = useFinanceStore(state => state.updateTransaction)
 	const closeModal = useModalStore(state => state.closeModal)
 
 	const form = useForm<TransactionFormValues>({
 		resolver: zodResolver(transactionFormSchema),
-		defaultValues: {
-			type: 'expense',
-			amount: '' as unknown as number,
-			date: new Date(),
-			description: '',
-			account: '',
-			toAccount: '',
-			categoryId: '',
-		},
+		defaultValues: transaction
+			? {
+					type: transaction.type,
+					amount: transaction.amount,
+					date: new Date(transaction.date),
+					description: transaction.description,
+					account: transaction.accountId,
+					toAccount: transaction.toAccountId ?? '',
+					categoryId: transaction.categoryId ?? '',
+				}
+			: {
+					type: 'expense',
+					amount: '' as unknown as number,
+					date: new Date(),
+					description: '',
+					account: '',
+					toAccount: '',
+					categoryId: '',
+				},
 	})
 
 	const [selectedType, selectedAccount, selectedToAccount] = useWatch({
@@ -86,7 +103,7 @@ export function TransactionForm({
 
 	// AUTO-OPIS DLA TRANSFERÓW
 	useEffect(() => {
-		if (selectedType === 'transfer') {
+		if (selectedType === 'transfer' && !transaction) {
 			const fromName = accounts.find(a => a.id === selectedAccount)?.name
 			const toName = accounts.find(a => a.id === selectedToAccount)?.name
 
@@ -96,23 +113,37 @@ export function TransactionForm({
 
 			form.setValue('description', autoDesc, { shouldValidate: true })
 		}
-	}, [selectedType, selectedAccount, selectedToAccount, accounts, form])
+	}, [selectedType, selectedAccount, selectedToAccount, accounts, form, transaction])
 
 	function onSubmit(values: TransactionFormValues) {
-		// czy sa srodki na koncie
+		if (!accounts.some(a => a.id === values.account)) {
+			form.setError('account', { message: 'Wybierz istniejące konto.' })
+			return
+		}
+		if (values.type === 'transfer' && !accounts.some(a => a.id === values.toAccount)) {
+			form.setError('toAccount', { message: 'Wybierz istniejące konto docelowe.' })
+			return
+		}
+		if (values.type !== 'transfer' && !categories.some(c => c.id === values.categoryId && c.type === values.type)) {
+			form.setError('categoryId', { message: 'Wybierz kategorię zgodną z typem transakcji.' })
+			return
+		}
+		// Cofnij wpływ starej transakcji przed sprawdzeniem dostępnych środków.
 		if (values.type === 'transfer' || values.type === 'expense') {
 			const sourceAccount = accounts.find(a => a.id === values.account)
 
-			if (sourceAccount && sourceAccount.currentBalance < values.amount) {
+			const available =
+				(sourceAccount?.currentBalance ?? 0) - (transaction ? transactionEffect(transaction, values.account) : 0)
+			if (available < values.amount) {
 				form.setError('amount', {
 					type: 'manual',
-					message: `Brak środków. Na koncie masz ${sourceAccount.currentBalance.toLocaleString('pl-PL', { minimumFractionDigits: 2 })} zł.`,
+					message: `Brak środków. Na koncie masz ${available.toLocaleString('pl-PL', { minimumFractionDigits: 2 })} zł.`,
 				})
 				return
 			}
 		}
 
-		addTransaction({
+		const payload = {
 			type: values.type,
 			amount: values.amount,
 			description: values.description,
@@ -120,7 +151,10 @@ export function TransactionForm({
 			toAccountId: values.type === 'transfer' ? values.toAccount : undefined,
 			categoryId: values.type !== 'transfer' ? values.categoryId : undefined,
 			date: values.date.toISOString(),
-		})
+		}
+		if (transaction) updateTransaction(transaction.id, payload)
+		else addTransaction(payload)
+		toast.add({ type: 'success', title: transaction ? 'Zapisano zmiany transakcji' : 'Dodano transakcję' })
 
 		onSuccess?.(values)
 		closeModal()
@@ -140,6 +174,7 @@ export function TransactionForm({
 								value={field.value}
 								onValueChange={val => {
 									field.onChange(val)
+									form.setValue('categoryId', '')
 
 									if (val !== 'transfer') {
 										form.setValue('toAccount', '')
@@ -327,7 +362,7 @@ export function TransactionForm({
 				/>
 			</FieldGroup>
 
-			<Button type="submit">Dodaj transakcję</Button>
+			<Button type="submit">{transaction ? 'Zapisz zmiany' : 'Dodaj transakcję'}</Button>
 		</form>
 	)
 }

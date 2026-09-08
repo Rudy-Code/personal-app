@@ -6,8 +6,7 @@ import { useJournalStore } from '../stores/useLifestyleStore'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Calendar, Edit, Tag, Timer, ArrowRight, Trash } from 'lucide-react'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { MarkdownContent } from '@/components/markdown/MarkdownContent'
 import { format, isValid } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { toast } from '@/components/ui/toast'
@@ -112,8 +111,8 @@ export const JournalDetails = () => {
 							</div>
 						</div>
 						<div className="flex-1 border-t border-zinc-700">
-							<div className="prose prose-zinc prose-invert w-full max-w-full rounded-md p-4">
-								<Markdown remarkPlugins={[remarkGfm]}>{currentEntry.content}</Markdown>
+							<div className="w-full max-w-full rounded-md p-4">
+								<MarkdownContent>{currentEntry.content}</MarkdownContent>
 							</div>
 						</div>
 					</>

@@ -32,7 +32,7 @@ export const SideBar = ({ isOpen, onClose }: SideBarProps) => {
 						<p className="text-muted-foreground text-sm">Personal Hub</p>
 					</div>
 
-					<button onClick={onClose} className="text-muted-foreground lg:hidden">
+					<button aria-label="Zamknij menu" onClick={onClose} className="text-muted-foreground lg:hidden">
 						<X className="size-5" />
 					</button>
 				</div>
@@ -48,6 +48,7 @@ export const SideBar = ({ isOpen, onClose }: SideBarProps) => {
 									<li key={subItem.label}>
 										<NavLink
 											to={subItem.path}
+											onClick={onClose}
 											className={({ isActive }) =>
 												cn(
 													'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',

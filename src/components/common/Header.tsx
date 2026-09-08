@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom'
 import { SIDEBAR_NAVIGATION } from '@/config/navigation'
 import { exportFullBackup, importFullBackup } from '@/lib/backup'
 import { useRef } from 'react'
+import { toast } from '@/components/ui/toast'
 export const Header = () => {
 	const setCommandOpen = useUIStore(state => state.setCommandOpen)
 
@@ -70,7 +71,14 @@ export const Header = () => {
 						}
 					/>
 					<DropdownMenuContent align="end" className="w-full">
-						<DropdownMenuItem className="cursor-pointer gap-2" onClick={exportFullBackup}>
+						<DropdownMenuItem
+							className="cursor-pointer gap-2"
+							onClick={() => {
+								void exportFullBackup().catch(() =>
+									toast.add({ type: 'error', title: 'Nie udało się wyeksportować kopii zapasowej.' })
+								)
+							}}
+						>
 							<Download className="size-4" />
 							Eksportuj (JSON)
 						</DropdownMenuItem>

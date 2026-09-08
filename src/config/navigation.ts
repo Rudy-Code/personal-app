@@ -35,6 +35,7 @@ export const SIDEBAR_NAVIGATION: NavigationItem[] = [
 				path: '/',
 				pageTitle: 'Witaj z powrotem!',
 			},
+			{ label: 'Dokumenty', icon: FileText, path: '/documents', pageTitle: 'Twoje dokumenty' },
 		],
 	},
 	{

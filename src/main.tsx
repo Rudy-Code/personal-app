@@ -44,6 +44,10 @@ const router = createBrowserRouter([
 					})),
 			},
 			{
+				path: 'documents',
+				lazy: () => import('./features/documents/pages/DocumentsPage').then(m => ({ Component: m.DocumentsPage })),
+			},
+			{
 				path: 'finance/overview',
 				lazy: () => import('./features/finance/pages/FinancePage').then(m => ({ Component: m.default })),
 			},
@@ -52,6 +56,11 @@ const router = createBrowserRouter([
 				lazy: () => import('./layouts/SettingsLayout').then(m => ({ Component: m.default })),
 				children: [
 					{ index: true, element: <Navigate to="finance" replace /> },
+					{
+						path: 'documents',
+						lazy: () =>
+							import('./features/settings/pages/DocumentsSettings').then(m => ({ Component: m.DocumentsSettings })),
+					},
 					{
 						path: 'finance',
 						lazy: () =>
