@@ -12,14 +12,12 @@ export const COLORS: Color[] = [
 	{ name: 'lime', bg: 'bg-lime-600', text: 'text-lime-600' },
 	{ name: 'indigo', bg: 'bg-indigo-600', text: 'text-indigo-600' },
 
-	// Nowe, dodatkowe kolory (600)
 	{ name: 'red', bg: 'bg-red-600', text: 'text-red-600' },
 	{ name: 'teal', bg: 'bg-teal-600', text: 'text-teal-600' },
 	{ name: 'fuchsia', bg: 'bg-fuchsia-600', text: 'text-fuchsia-600' },
 	{ name: 'yellow', bg: 'bg-yellow-600', text: 'text-yellow-600' },
-	{ name: 'slate', bg: 'bg-slate-600', text: 'text-slate-600' }, // Szaro-niebieski, neutralny
+	{ name: 'slate', bg: 'bg-slate-600', text: 'text-slate-600' }, 
 
-	// Ciemniejsze warianty (700) - jakby 600 było jednak za jasne
 	{ name: 'red-dark', bg: 'bg-red-700', text: 'text-red-700' },
 	{ name: 'blue-dark', bg: 'bg-blue-700', text: 'text-blue-700' },
 	{ name: 'emerald-dark', bg: 'bg-emerald-700', text: 'text-emerald-700' },
