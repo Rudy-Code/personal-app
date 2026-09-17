@@ -3,7 +3,7 @@
 Aplikacja webowa będąca centrum dowodzenia. Śledź finanse, zapisuj notatki w dzienniku, planuj zadania i zarządzaj projektami. Wszystko w jednym miejscu, z prostym i intuicyjnym interfejsem.
 
 [**🔗 Zobacz projekt na żywo: https://personal.rudycode.pl/**](https://personal.rudycode.pl/)
-Możesz przetestować aplikację używając przykładowych danych, które możesz pobrać z [tutaj](https://personal.rudycode.pl/sample-data.json) lub z repozytorium. Następnie kliknij Dane > Importuj kopię i wybierz pobrany plik. Po zaimportowaniu danych możesz je przeglądać, edytować i usuwać.
+Możesz przetestować aplikację używając przykładowych danych, które możesz pobrać z [tutaj](https://github.com/Rudy-Code/personal-app/blob/main/public/sample-data.json). Następnie kliknij Dane > Importuj kopię i wybierz pobrany plik. Po zaimportowaniu danych możesz je przeglądać, edytować i usuwać.
 
 ---
 
