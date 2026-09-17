@@ -3,6 +3,7 @@
 Aplikacja webowa będąca centrum dowodzenia. Śledź finanse, zapisuj notatki w dzienniku, planuj zadania i zarządzaj projektami. Wszystko w jednym miejscu, z prostym i intuicyjnym interfejsem.
 
 [**🔗 Zobacz projekt na żywo: https://personal.rudycode.pl/**](https://personal.rudycode.pl/)
+Możesz przetestować aplikację używając przykładowych danych, które możesz pobrać z [tutaj](https://personal.rudycode.pl/sample-data.json) lub z repozytorium. Następnie kliknij Dane > Importuj kopię i wybierz pobrany plik. Po zaimportowaniu danych możesz je przeglądać, edytować i usuwać.
 
 ---
 
@@ -87,21 +88,6 @@ Co działa na ten moment:
 
 Jeśli nie masz zainstalowanego środowiska Bun, pobierz je z [oficjalnej strony:](https://bun.com/docs/installation)
 
+### O projekcie
 
-## Dokumenty, kolory i zdjęcia
-
-W menu **Dokumenty** utwórz folder, a następnie dodaj stronę. Tytuł i treść zapisują się automatycznie. Folder można zmienić w edytorze; usunięcie folderu przenosi jego strony do „Bez folderu”. Usunięcie strony wymaga potwierdzenia.
-
-W dzienniku i dokumentach zaznacz fragment tekstu i kliknij kolor. Rozszerzenie Markdown używa składni `[tekst](color:red)`; dostępne są `red`, `orange`, `green`, `blue` i `purple`. Działa również z pogrubieniem, np. `[**ważne**](color:red)`. Kolory są rozszerzeniem tej aplikacji, więc inne edytory Markdown mogą wyświetlić je jako odnośniki.
-
-**Dodaj zdjęcie** pozwala wybrać własny JPG, PNG, WebP lub GIF do 8 MB. Zdjęcie trafia do IndexedDB w przeglądarce, bez wysyłania na serwer. Markdown przechowuje odwołanie `![opis](local-image:identyfikator)`. Obrazy z zewnętrznych adresów oraz surowy HTML nie są renderowane. Usunięcie odwołania z tekstu nie usuwa fizycznie zdjęcia, ponieważ ten sam obraz może być używany w innych wpisach.
-
-Dane są przypisane do przeglądarki i adresu aplikacji. Wyczyszczenie danych witryny usuwa także zdjęcia. **Dane → Eksportuj (JSON)** tworzy kopię wraz ze zdjęciami; import na innym urządzeniu odtwarza je lokalnie. Plik `.md` zawiera tylko tekst i odwołania, nie zawiera plików zdjęć. Starsze kopie bez dokumentów i obrazów nadal można importować; sekcje nieobecne w kopii pozostają bez zmian.
-
-## Weryfikacja i przegląd kodu
-
-- `bun run build` — TypeScript i kompilacja produkcyjna.
-- `bun run test` — testy edycji transakcji, dokumentów, Markdown i walidacji kopii.
-- [Przegląd projektu i pozostałe obszary rozwoju](docs/project-review.md).
-
-Kategorie dokumentów można dodawać, edytować i usuwać w **Ustawienia → Dokumenty**. Każda kategoria ma nazwę i kolor; stronę można przypisać do kilku kategorii i filtrować listę niezależnie od folderów. Usunięcie kategorii usuwa wyłącznie przypisania, zachowując strony. Kategorie są częścią kopii JSON; starsze dokumenty otrzymują pustą listę kategorii.
+Personal Hub to aplikacja stworzona z myślą o zoptymalizowaniu mojego codziennego workflow. Głównym założeniem technicznym było zbudowanie skalowalnego i łatwego w utrzymaniu interfejsu przy użyciu Reacta, lekkiego zarządzania stanem w Zustand oraz gotowych komponentów z shadcn/ui. Projekt posłużył mi jednocześnie jako środowisko testowe do ewaluacji narzędzi sztucznej inteligencji (np. GPT-6 Astra, Claude)
