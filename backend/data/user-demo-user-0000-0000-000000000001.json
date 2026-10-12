@@ -1,0 +1,428 @@
+{
+  "finance-storage": {
+    "state": {
+      "accounts": [
+        {
+          "id": "account-main",
+          "name": "Konto osobiste",
+          "balance": 4200,
+          "icon": "landmark",
+          "color": "bg-blue-600",
+          "description": "Główne konto do codziennych rozliczeń"
+        },
+        {
+          "id": "account-savings",
+          "name": "Oszczędności",
+          "balance": 12500,
+          "icon": "piggy-bank",
+          "color": "bg-emerald-600",
+          "description": "Poduszka finansowa i cele długoterminowe"
+        },
+        {
+          "id": "account-wallet",
+          "name": "Gotówka",
+          "balance": 350,
+          "icon": "wallet",
+          "color": "bg-amber-600",
+          "description": "Wydatki gotówkowe"
+        },
+        {
+          "id": "account-old",
+          "name": "Stare konto",
+          "balance": 0,
+          "icon": "credit-card",
+          "color": "bg-slate-600",
+          "description": "Przykład zarchiwizowanego konta",
+          "isArchived": true
+        }
+      ],
+      "categories": [
+        {
+          "id": "category-salary",
+          "name": "Wynagrodzenie",
+          "type": "income",
+          "color": "bg-emerald-600"
+        },
+        {
+          "id": "category-freelance",
+          "name": "Zlecenia dodatkowe",
+          "type": "income",
+          "color": "bg-cyan-600"
+        },
+        {
+          "id": "category-food",
+          "name": "Jedzenie",
+          "type": "expense",
+          "color": "bg-amber-600"
+        },
+        {
+          "id": "category-home",
+          "name": "Mieszkanie",
+          "type": "expense",
+          "color": "bg-blue-600"
+        },
+        {
+          "id": "category-transport",
+          "name": "Transport",
+          "type": "expense",
+          "color": "bg-violet-600"
+        },
+        {
+          "id": "category-health",
+          "name": "Zdrowie i sport",
+          "type": "expense",
+          "color": "bg-rose-600"
+        },
+        {
+          "id": "category-entertainment",
+          "name": "Rozrywka",
+          "type": "expense",
+          "color": "bg-pink-600"
+        },
+        {
+          "id": "category-education",
+          "name": "Edukacja",
+          "type": "expense",
+          "color": "bg-indigo-600"
+        }
+      ],
+      "transactions": [
+        {
+          "id": "transaction-2026-08-salary",
+          "date": "2026-08-03",
+          "description": "Wynagrodzenie za sierpień",
+          "amount": 7800,
+          "type": "income",
+          "accountId": "account-main",
+          "categoryId": "category-salary"
+        },
+        {
+          "id": "transaction-2026-08-rent",
+          "date": "2026-08-05",
+          "description": "Czynsz i opłaty",
+          "amount": 2350,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-home"
+        },
+        {
+          "id": "transaction-2026-08-groceries",
+          "date": "2026-08-10",
+          "description": "Zakupy spożywcze",
+          "amount": 286.4,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-food"
+        },
+        {
+          "id": "transaction-2026-08-course",
+          "date": "2026-08-18",
+          "description": "Kurs TypeScript",
+          "amount": 329,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-education"
+        },
+        {
+          "id": "transaction-2026-08-savings",
+          "date": "2026-08-20",
+          "description": "Przelew na poduszkę finansową",
+          "amount": 1500,
+          "type": "transfer",
+          "accountId": "account-main",
+          "toAccountId": "account-savings"
+        },
+        {
+          "id": "transaction-2026-09-salary",
+          "date": "2026-09-02",
+          "description": "Wynagrodzenie za wrzesień",
+          "amount": 7800,
+          "type": "income",
+          "accountId": "account-main",
+          "categoryId": "category-salary"
+        },
+        {
+          "id": "transaction-2026-09-freelance",
+          "date": "2026-09-04",
+          "description": "Projekt strony wizytówki",
+          "amount": 1400,
+          "type": "income",
+          "accountId": "account-main",
+          "categoryId": "category-freelance"
+        },
+        {
+          "id": "transaction-2026-09-rent",
+          "date": "2026-09-05",
+          "description": "Czynsz i opłaty",
+          "amount": 2380,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-home"
+        },
+        {
+          "id": "transaction-2026-09-groceries-1",
+          "date": "2026-09-06",
+          "description": "Zakupy na tydzień",
+          "amount": 214.65,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-food"
+        },
+        {
+          "id": "transaction-2026-09-train",
+          "date": "2026-09-08",
+          "description": "Bilety kolejowe",
+          "amount": 119.8,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-transport"
+        },
+        {
+          "id": "transaction-2026-09-gym",
+          "date": "2026-09-10",
+          "description": "Karnet na siłownię",
+          "amount": 159,
+          "type": "expense",
+          "accountId": "account-main",
+          "categoryId": "category-health"
+        },
+        {
+          "id": "transaction-2026-09-cinema",
+          "date": "2026-09-12",
+          "description": "Kino i przekąski",
+          "amount": 92.5,
+          "type": "expense",
+          "accountId": "account-wallet",
+          "categoryId": "category-entertainment"
+        },
+        {
+          "id": "transaction-2026-09-groceries-2",
+          "date": "2026-09-14",
+          "description": "Warzywa i pieczywo",
+          "amount": 76.2,
+          "type": "expense",
+          "accountId": "account-wallet",
+          "categoryId": "category-food"
+        },
+        {
+          "id": "transaction-2026-09-cash",
+          "date": "2026-09-15",
+          "description": "Wypłata na drobne wydatki",
+          "amount": 300,
+          "type": "transfer",
+          "accountId": "account-main",
+          "toAccountId": "account-wallet"
+        },
+        {
+          "id": "transaction-2026-09-savings",
+          "date": "2026-09-16",
+          "description": "Regularne oszczędzanie",
+          "amount": 1800,
+          "type": "transfer",
+          "accountId": "account-main",
+          "toAccountId": "account-savings"
+        }
+      ],
+      "settings": {
+        "monthlyExpenseLimit": 4000,
+        "monthlyIncomeGoal": 8500
+      }
+    },
+    "version": 0
+  },
+  "lifestyle-storage": {
+    "state": {
+      "entries": [
+        {
+          "id": "journal-2026-09-16",
+          "title": "Dobry rytm tygodnia",
+          "content": "## Podsumowanie dnia\n\nUdało mi się zamknąć najważniejsze zadania i zrobić spokojny trening.\n\n- [x] Przegląd budżetu\n- [x] Bieg 6 km\n- [x] Godzina nauki\n- [ ] Zaplanować weekend\n\n[**Najważniejsze:**](color:emerald) regularność działa lepiej niż zryw.",
+          "tags": [
+            "journal-personal-growth",
+            "journal-running"
+          ],
+          "createdAt": "16.09.2026",
+          "dateRange": {
+            "from": "2026-09-16T00:00:00.000Z"
+          }
+        },
+        {
+          "id": "journal-2026-09-12",
+          "title": "Weekend w górach",
+          "content": "# Krótki wyjazd\n\nTrasa była wymagająca, ale widoki zdecydowanie wynagrodziły podejścia.\n\n### Co zapamiętać\n\n1. Wyruszyć wcześniej.\n2. Zabrać więcej wody.\n3. Następnym razem wybrać dłuższą pętlę.",
+          "tags": [
+            "journal-events",
+            "journal-training"
+          ],
+          "createdAt": "14.09.2026",
+          "dateRange": {
+            "from": "2026-09-12T00:00:00.000Z",
+            "to": "2026-09-13T00:00:00.000Z"
+          }
+        },
+        {
+          "id": "journal-2026-09-08",
+          "title": "Pomysł na usprawnienie pracy",
+          "content": "## Eksperyment na ten tydzień\n\nBlokuję pierwsze **90 minut** dnia na jedno zadanie bez komunikatorów. Po tygodniu porównam efekty.\n\n> Mniej przełączania kontekstu, więcej domkniętych tematów.",
+          "tags": [
+            "journal-work",
+            "journal-thoughts"
+          ],
+          "createdAt": "08.09.2026",
+          "dateRange": {
+            "from": "2026-09-08T00:00:00.000Z"
+          }
+        },
+        {
+          "id": "journal-2026-08-29",
+          "title": "Plan na wrzesień",
+          "content": "## Trzy priorytety\n\n- Utrzymać kontrolę nad wydatkami.\n- Trenować trzy razy w tygodniu.\n- Dokończyć kurs TypeScript.\n\n[**Zasada miesiąca:**](color:blue) najpierw rzeczy ważne, potem pilne.",
+          "tags": [
+            "journal-important",
+            "journal-personal-growth"
+          ],
+          "createdAt": "29.08.2026",
+          "dateRange": {
+            "from": "2026-08-29T00:00:00.000Z"
+          }
+        }
+      ],
+      "journalCategories": [
+        {
+          "id": "journal-important",
+          "name": "Ważne",
+          "color": "red"
+        },
+        {
+          "id": "journal-training",
+          "name": "Trening",
+          "color": "orange"
+        },
+        {
+          "id": "journal-work",
+          "name": "Praca",
+          "color": "blue-dark"
+        },
+        {
+          "id": "journal-running",
+          "name": "Bieganie",
+          "color": "emerald"
+        },
+        {
+          "id": "journal-personal-growth",
+          "name": "Rozwój osobisty",
+          "color": "indigo"
+        },
+        {
+          "id": "journal-thoughts",
+          "name": "Przemyślenia",
+          "color": "violet"
+        },
+        {
+          "id": "journal-events",
+          "name": "Wydarzenia",
+          "color": "teal"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "documents-storage": {
+    "state": {
+      "categories": [
+        {
+          "id": "document-category-project",
+          "name": "Projekty",
+          "color": "bg-blue-600"
+        },
+        {
+          "id": "document-category-personal",
+          "name": "Prywatne",
+          "color": "bg-emerald-600"
+        },
+        {
+          "id": "document-category-reference",
+          "name": "Materiały",
+          "color": "bg-violet-600"
+        },
+        {
+          "id": "document-category-important",
+          "name": "Ważne",
+          "color": "bg-red-600"
+        }
+      ],
+      "folders": [
+        {
+          "id": "folder-work",
+          "name": "Praca"
+        },
+        {
+          "id": "folder-home",
+          "name": "Dom"
+        },
+        {
+          "id": "folder-learning",
+          "name": "Nauka"
+        }
+      ],
+      "pages": [
+        {
+          "id": "page-project-plan",
+          "categoryIds": [
+            "document-category-project",
+            "document-category-important"
+          ],
+          "folderId": "folder-work",
+          "title": "Plan projektu — aplikacja klienta",
+          "content": "# Plan projektu\n\n## Cel\n\nPrzygotować pierwszą wersję aplikacji i zebrać uwagi użytkowników.\n\n## Zakres MVP\n\n- [x] Makiety głównych widoków\n- [x] Model danych\n- [ ] Implementacja logowania\n- [ ] Panel użytkownika\n- [ ] Testy akceptacyjne\n\n## Następne spotkanie\n\n**21 września, 10:00** — prezentacja postępu.",
+          "createdAt": "2026-09-01T08:30:00.000Z",
+          "updatedAt": "2026-09-16T14:10:00.000Z"
+        },
+        {
+          "id": "page-meeting-notes",
+          "categoryIds": [
+            "document-category-project"
+          ],
+          "folderId": "folder-work",
+          "title": "Notatki ze spotkania 14.09",
+          "content": "# Ustalenia\n\n1. Priorytetem jest prosty onboarding.\n2. Wersja demonstracyjna ma być gotowa do końca miesiąca.\n3. Zespół przygotuje listę ryzyk.\n\n## Pytania otwarte\n\n- Czy import danych powinien obsługiwać CSV?\n- Jak długo przechowujemy historię zmian?",
+          "createdAt": "2026-09-14T09:00:00.000Z",
+          "updatedAt": "2026-09-14T11:45:00.000Z"
+        },
+        {
+          "id": "page-home-checklist",
+          "categoryIds": [
+            "document-category-personal"
+          ],
+          "folderId": "folder-home",
+          "title": "Lista rzeczy do domu",
+          "content": "# Do zrobienia\n\n- [x] Zamówić filtry do wody\n- [ ] Umówić przegląd pieca\n- [ ] Kupić roślinę do salonu\n- [ ] Posegregować dokumenty\n\n## Regularnie\n\n- Odczyt liczników — ostatni dzień miesiąca\n- Kopia ważnych plików — pierwsza niedziela miesiąca",
+          "createdAt": "2026-08-28T17:20:00.000Z",
+          "updatedAt": "2026-09-15T18:05:00.000Z"
+        },
+        {
+          "id": "page-typescript-notes",
+          "categoryIds": [
+            "document-category-reference"
+          ],
+          "folderId": "folder-learning",
+          "title": "TypeScript — przydatne wzorce",
+          "content": "# TypeScript\n\n## Discriminated unions\n\n```ts\ntype Result =\n  | { status: 'success'; data: string }\n  | { status: 'error'; message: string }\n```\n\nDzięki wspólnemu polu `status` TypeScript poprawnie zawęża typ w instrukcji warunkowej.\n\n## Do powtórki\n\n- typy generyczne\n- `satisfies`\n- utility types",
+          "createdAt": "2026-08-19T19:30:00.000Z",
+          "updatedAt": "2026-09-10T20:15:00.000Z"
+        },
+        {
+          "id": "page-quick-note",
+          "categoryIds": [],
+          "folderId": null,
+          "title": "Szybka notatka",
+          "content": "Pomysły do uporządkowania:\n\n- nowy układ dashboardu\n- skróty klawiaturowe\n- eksport miesięcznego raportu",
+          "createdAt": "2026-09-17T07:40:00.000Z",
+          "updatedAt": "2026-09-17T07:40:00.000Z"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "local-images": []
+}

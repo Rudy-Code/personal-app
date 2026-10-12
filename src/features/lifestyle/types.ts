@@ -1,3 +1,5 @@
+import type { colorType } from '@/types/colors'
+
 export interface LifestyleState {
 	entries: JournalEntry[]
 	journalCategories: Category[]
@@ -28,3 +30,24 @@ export interface JournalEntry {
 }
 
 export type NewJournalEntry = Omit<JournalEntry, 'id' | 'createdAt'>
+
+// ==========
+
+export type ActivityType = 'strength' | 'cardio' | 'yoga' | 'stretching'
+
+export interface PlannedWorkout {
+	id: number
+	activityType: ActivityType
+	activityLabel: string
+	name: string
+	color: colorType
+	time: string
+	duration: number
+	notes?: string
+}
+
+export interface WorkoutDay {
+	id: number
+	date: string
+	workouts: PlannedWorkout[]
+}

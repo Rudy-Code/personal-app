@@ -1,0 +1,14 @@
+[
+  {
+    "id": "7bb6d29f-9c35-4443-ae1f-1a61c4b532b2",
+    "username": "admin",
+    "passwordHash": "$2b$12$INoXN4SLqK1rqqs2hS9hAeGYRWPVqFag0ADfAFV9wFJXa/b1WxYUG",
+    "createdAt": "2026-10-12T11:41:08.253Z"
+  },
+  {
+    "id": "demo-user-0000-0000-000000000001",
+    "username": "demo",
+    "passwordHash": "$2b$12$zX17xgKKQsh0eeiRXUkFyeD6bk/UvxHQnOIAebdujZes0aiv0RVx6",
+    "createdAt": "2026-10-12T11:44:43.197Z"
+  }
+]

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { documentsSchema } from '@/features/documents/stores/useDocumentsStore'
 import { getLocalImages, putLocalImages } from './localImages'
 
-const APP_STORAGE_KEYS = ['lifestyle-storage', 'finance-storage', 'documents-storage'] as const
+export const APP_STORAGE_KEYS = ['lifestyle-storage', 'finance-storage', 'documents-storage'] as const
 const id = z.string().min(1)
 const financeSchema = z.object({
 	accounts: z.array(
@@ -67,12 +67,31 @@ export const backupSchema = z
 	})
 	.refine(data => APP_STORAGE_KEYS.some(key => data[key]), 'Plik jest pusty lub ma zły format.')
 
-export const exportFullBackup = async () => {
+export const getStorageBackup = (): Record<string, unknown> => {
 	const backup: Record<string, unknown> = {}
 	for (const key of APP_STORAGE_KEYS) {
 		const raw = localStorage.getItem(key)
-		if (raw) backup[key] = JSON.parse(raw)
+		if (raw) {
+			try {
+				backup[key] = JSON.parse(raw)
+			} catch {
+				// ignore malformed local entry
+			}
+		}
 	}
+	return backup
+}
+
+export const applyStorageBackup = (data: Record<string, unknown>): void => {
+	for (const key of APP_STORAGE_KEYS) {
+		if (data[key]) {
+			localStorage.setItem(key, JSON.stringify(data[key]))
+		}
+	}
+}
+
+export const exportFullBackup = async () => {
+	const backup = getStorageBackup()
 	backup['local-images'] = await getLocalImages()
 	const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }))
 	const anchor = document.createElement('a')
@@ -91,9 +110,7 @@ export const importFullBackup = async (file: File): Promise<void> => {
 	const previousImages = imported['local-images'] ? await getLocalImages() : undefined
 	if (imported['local-images']) await putLocalImages(imported['local-images'])
 	try {
-		for (const key of APP_STORAGE_KEYS) {
-			if (imported[key]) localStorage.setItem(key, JSON.stringify(imported[key]))
-		}
+		applyStorageBackup(imported)
 	} catch (error) {
 		for (const key of APP_STORAGE_KEYS) localStorage.removeItem(key)
 		for (const [key, value] of previous) {

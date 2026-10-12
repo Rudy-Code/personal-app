@@ -4,80 +4,90 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './index.css'
 
 import { MainLayout } from './layouts/MainLayout'
+import { AuthGuard } from './components/auth/AuthGuard'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <MainLayout />,
+		element: <AuthGuard />,
 		children: [
 			{
-				index: true,
-				lazy: () => import('./features/dashboard/pages/Dashboard').then(m => ({ Component: m.Dashboard })),
-			},
-			{
-				path: 'lifestyle/workouts',
-				lazy: () => import('./features/lifestyle/pages/WorkoutsPage').then(m => ({ Component: m.default })),
-			},
-			{
-				path: 'lifestyle/journal',
-				lazy: () => import('./features/lifestyle/pages/JournalPage').then(m => ({ Component: m.JournalPage })),
-			},
-			{
-				path: 'lifestyle/journal/edit/:id',
-				lazy: () =>
-					import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
-						Component: m.JournalEntryDetails,
-					})),
-			},
-			{
-				path: 'lifestyle/journal/:id',
-				lazy: () =>
-					import('./features/lifestyle/pages/JournalDetails').then(m => ({
-						Component: m.JournalDetails,
-					})),
-			},
-			{
-				path: 'lifestyle/journal/new',
-				lazy: () =>
-					import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
-						Component: m.JournalEntryDetails,
-					})),
-			},
-			{
-				path: 'documents',
-				lazy: () => import('./features/documents/pages/DocumentsPage').then(m => ({ Component: m.DocumentsPage })),
-			},
-			{
-				path: 'finance/overview',
-				lazy: () => import('./features/finance/pages/FinancePage').then(m => ({ Component: m.default })),
-			},
-			{
-				path: 'settings',
-				lazy: () => import('./layouts/SettingsLayout').then(m => ({ Component: m.default })),
+				element: <MainLayout />,
 				children: [
-					{ index: true, element: <Navigate to="finance" replace /> },
+					{
+						index: true,
+						lazy: () => import('./features/dashboard/pages/Dashboard').then(m => ({ Component: m.Dashboard })),
+					},
+					{
+						path: 'lifestyle/workouts',
+						lazy: () => import('./features/lifestyle/pages/WorkoutsPage').then(m => ({ Component: m.default })),
+					},
+					{
+						path: 'lifestyle/journal',
+						lazy: () => import('./features/lifestyle/pages/JournalPage').then(m => ({ Component: m.JournalPage })),
+					},
+					{
+						path: 'lifestyle/journal/edit/:id',
+						lazy: () =>
+							import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
+								Component: m.JournalEntryDetails,
+							})),
+					},
+					{
+						path: 'lifestyle/journal/:id',
+						lazy: () =>
+							import('./features/lifestyle/pages/JournalDetails').then(m => ({
+								Component: m.JournalDetails,
+							})),
+					},
+					{
+						path: 'lifestyle/journal/new',
+						lazy: () =>
+							import('./features/lifestyle/pages/JournalEntryDetails').then(m => ({
+								Component: m.JournalEntryDetails,
+							})),
+					},
 					{
 						path: 'documents',
-						lazy: () =>
-							import('./features/settings/pages/DocumentsSettings').then(m => ({ Component: m.DocumentsSettings })),
+						lazy: () => import('./features/documents/pages/DocumentsPage').then(m => ({ Component: m.DocumentsPage })),
 					},
 					{
-						path: 'finance',
-						lazy: () =>
-							import('./features/settings/pages/FinanceSettings').then(m => ({
-								Component: m.FinanceSettings,
-							})),
+						path: 'finance/overview',
+						lazy: () => import('./features/finance/pages/FinancePage').then(m => ({ Component: m.default })),
 					},
 					{
-						path: 'lifestyle',
-						lazy: () =>
-							import('./features/settings/pages/LifestyleSettings').then(m => ({
-								Component: m.LifestyleSettings,
-							})),
+						path: 'settings',
+						lazy: () => import('./layouts/SettingsLayout').then(m => ({ Component: m.default })),
+						children: [
+							{ index: true, element: <Navigate to="finance" replace /> },
+							{
+								path: 'documents',
+								lazy: () =>
+									import('./features/settings/pages/DocumentsSettings').then(m => ({ Component: m.DocumentsSettings })),
+							},
+							{
+								path: 'finance',
+								lazy: () =>
+									import('./features/settings/pages/FinanceSettings').then(m => ({
+										Component: m.FinanceSettings,
+									})),
+							},
+							{
+								path: 'lifestyle',
+								lazy: () =>
+									import('./features/settings/pages/LifestyleSettings').then(m => ({
+										Component: m.LifestyleSettings,
+									})),
+							},
+						],
 					},
 				],
 			},
 		],
+	},
+	{
+		path: '/login',
+		lazy: () => import('./features/auth/pages/AuthPage').then(m => ({ Component: m.AuthPage })),
 	},
 	{
 		path: '/live',

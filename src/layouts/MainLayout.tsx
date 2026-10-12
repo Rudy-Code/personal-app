@@ -5,6 +5,7 @@ import { Header } from '@/components/common/Header'
 import { SideBar } from '@/components/common/SideBar'
 import { CommandPalette } from '@/components/common/CommandPalette'
 import { Toaster } from '@/components/ui/toast'
+import { useCloudAutoSave } from '@/hooks/useCloudAutoSave'
 
 const ModalManager = lazy(() =>
 	import('@/components/common/ModalMenager').then((m) => ({ default: m.ModalManager })),
@@ -12,6 +13,7 @@ const ModalManager = lazy(() =>
 
 export const MainLayout = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+	useCloudAutoSave()
 
 	return (
 		<div className="bg-background text-foreground flex h-screen w-full overflow-hidden font-sans">
